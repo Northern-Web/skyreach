@@ -1,0 +1,70 @@
+<%- include("../../global/header") %>
+<%- include("../sidenav") %>
+
+</div>
+    <div class="row">
+        <div class="col-12">
+            <h1><%= aircraft.manufacturer %></h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="/members/dashboard">Dashboard</a></li>
+                  <li class="breadcrumb-item"><a href="/members/aircrafts/overview">Aircrafts</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Details</li>
+                </ol>
+              </nav>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <h2><%= aircraft.model%></h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12 col-md-3 col-lg-3">
+            <img 
+            src="<%= aircraft.img.url %>" 
+            class="img-thumbnail" 
+            width="300" 
+            alt="<%= aircraft.img.credit %>"
+            title="<%= aircraft.img.credit %>">
+        </div>
+        <div class="col-xs-12 col-md-3 col-lg-3">
+            <table class="table table-striped">
+                <thead>
+                    <th>Property</th>
+                    <th>Description</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Capacity</td>
+                        <td><%= aircraft.capacity %></td>
+                    </tr>
+                    <tr>
+                        <td>Max Altitude</td>
+                        <td><%= aircraft.maxAltitude%> <%= aircraft.altitudeDefinition %></td>
+                    </tr>
+                    <tr>
+                        <td>Climb Duration</td>
+                        <td><%= aircraft.climbDuration %> min.</td>
+                    </tr>
+                    <tr>
+                        <td>Engine</td>
+                        <td><%= aircraft.engine %></td>
+                    </tr>
+                    <tr>
+                        <td>National Origin</td>
+                        <td><%= aircraft.nationalOrigin %></td>
+                    </tr>
+                </tbody>
+              </table>
+        </div>
+    </div>
+</div>
+</div>
+
+<%- include("../../global/footer") %>

@@ -13,9 +13,19 @@ var AircraftSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
-  imgUrl: {
-    type: String,
-    trim: true
+  img: {
+    url: {
+        type: String,
+        trim: true
+    },
+    credit: {
+        type: String,
+        trim: true
+    },
+    creditUrl: {
+        type: String,
+        trim: true
+    }
   },
   maxAltitude: {
     type: Number

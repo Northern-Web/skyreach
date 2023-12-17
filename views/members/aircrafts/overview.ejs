@@ -1,0 +1,50 @@
+<%- include("../../global/header") %>
+<%- include("../sidenav") %>
+
+</div>
+    <div class="row">
+        <div class="col-12">
+            <h1>Aircrafts</h1>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="/members/dashboard">Dashboard</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Aircrafts</li>
+                </ol>
+              </nav>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <p>Commonly used for skydiving.</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12 col-lg-10">
+            <table class="table table-striped">
+                <thead>
+                    <th>Model</th>
+                    <th>Manufacturer</th>
+                    <th>Altitude</th>
+                </thead>
+                <tbody>
+                    <% for (let aircraft of aircrafts) { %> 
+                        <tr>
+                            <td><a href="/members/aircrafts/<%= aircraft.id %>"><%= aircraft.model %></a></td>
+                            <td><%= aircraft.manufacturer %></td>
+                            <td><%= aircraft.maxAltitude %> <%= aircraft.altitudeDefinition %></td>
+                        </tr>
+                    <% } %>
+                </tbody>
+              </table>
+        </div>
+    </div>
+</div>
+</div>
+
+<%- include("../../global/footer") %>

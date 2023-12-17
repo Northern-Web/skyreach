@@ -22,11 +22,13 @@ app.set('view engine', 'ejs');
 const homeRoutes    = require("./routes/home.routes");
 const authRoutes    = require("./routes/auth.routes");
 const membersRoutes = require("./routes/members.routes");
+const aircraftRoutes = require("./routes/aircraft.routes");
 
 // Router Uses
 app.use("/", homeRoutes);
 app.use("/auth", authRoutes);
-app.use('/members', membersRoutes);
+app.use("/members", membersRoutes);
+app.use("/members/aircrafts", aircraftRoutes);
 
 
 app.listen(process.env.PORT || 3000, () => {
