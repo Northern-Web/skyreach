@@ -1,0 +1,137 @@
+<%- include("../global/header") %>
+<%- include("navbar") %>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-lg-4 offset-lg-4">
+            <h1>Sign up for Skyreach</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-lg-4 offset-lg-4">
+            <div class="card">
+                <div class="card-body">
+                <form class="needs-validation" action="/auth/signup" method="post" novalidate>
+                    <div class="row mb-3">
+                        <div class="col-xs-12 col-sm-12 col-lg-6">
+                            <input 
+                            type="text" 
+                            class="form-control" 
+                            id="input-name" 
+                            name="name"
+                            placeholder="Name"
+                            required>
+                            <div class="valid-feedback">
+                                Looks good!
+                              </div>
+                        </div>
+
+                        <div class="col-xs-12 col-sm-12 col-lg-6">
+                            <input 
+                            type="email" 
+                            class="form-control" 
+                            id="input-email" 
+                            name="email"
+                            placeholder="E-mail"
+                            required>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-xs-12 col-sm-12 col-lg-6"> 
+                            <input 
+                            type="password" 
+                            class="form-control" 
+                            id="input-password" 
+                            name="password"
+                            placeholder="Password"
+                            required>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <hr />
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-xs-12 col-sm-12 col-lg-6">
+                            <input 
+                            type="text" 
+                            class="form-control" 
+                            id="input-streetname-1" 
+                            name="streetname1"
+                            placeholder="Street name 1">
+                        </div>
+
+                        <div class="col-xs-12 col-sm-12 col-lg-6">
+                            <input 
+                            type="text" 
+                            class="form-control" 
+                            id="input-streetname-2" 
+                            name="streetname2"
+                            placeholder="Street name 2">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-xs-12 col-sm-12 col-lg-6">
+                            <input 
+                            type="text" 
+                            class="form-control" 
+                            id="input-region" 
+                            name="region"
+                            placeholder="Region">
+                        </div>
+
+                        <div class="col-xs-12 col-sm-12 col-lg-6">
+                            <input 
+                            type="text" 
+                            class="form-control" 
+                            id="input-zipCode" 
+                            name="zipCode"
+                            placeholder="Zip Code">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-xs-12 col-sm-12 col-lg-6">
+                            <input 
+                            type="text" 
+                            class="form-control" 
+                            id="input-city" 
+                            name="city"
+                            placeholder="City">
+                        </div>
+
+                        <div class="col-xs-12 col-sm-12 col-lg-6">
+                            <select class="form-select" aria-label="Select country" name="country">
+                            <% for (let country of countries) { %> 
+                            <option value="<%= country.isoCode %>"><%= country.name %></option>
+                            <% } %>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col">
+                            <button 
+                            type="submit"
+                            class="btn btn-primary">Sign up</button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 text-center">
+            <a class="text-center" href="/">&#8592; Return home</a>
+        </div>
+    </div>
+</div>
+
+
+
+<%- include("../global/footer") %>

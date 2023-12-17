@@ -1,0 +1,27 @@
+#navbar-spacer {
+    height: 120px;
+}
+
+/* Hero */
+.hero {
+    display: flex;
+    align-items: center;
+    justify-content:center;
+    gap: 1.9rem;
+    max-width:90%;
+    margin: 2rem auto -6rem;
+    background-color: #1f8dd6;
+}
+
+.intro-text h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.take-it {
+
+}
+
+.cloud {
+
+}
