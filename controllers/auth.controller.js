@@ -118,4 +118,9 @@ exports.loginUser = asyncHandler(async (req, res) => {
     res.cookie('x-access-token',token, await user.getCookieOptions()) 
     res.status(200).redirect('/members/dashboard');
 
-})
+});
+
+exports.logoutUser = asyncHandler(async (req, res) => {
+    res.clearCookie("x-access-token");
+    res.status(200).redirect('/');
+});
