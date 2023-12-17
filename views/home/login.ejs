@@ -7,11 +7,25 @@
             <h1>Sign in</h1>
         </div>
     </div>
+
+    <% if (messages.length > 0) { %>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-lg-4 offset-lg-4">
+            <div class="alert alert-danger d-flex" role="alert">
+                <ul>
+                    <% for (let message of messages) { %>
+                    <li><%= message %> </li>
+                    <% } %>
+                </ul>
+              </div>
+        </div>
+    </div>
+    <% } %>
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-lg-4 offset-lg-4">
             <div class="card">
                 <div class="card-body">
-                    <form action="#" method="post">
+                    <form action="/auth/signin" method="post">
                         <div class="row mb-3">
                             <div class="col-12">
                                 <input 
