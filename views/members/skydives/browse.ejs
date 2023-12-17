@@ -25,13 +25,18 @@
         <table class="table table-striped">
             <thead>
                 <th>#</th>
+                <th>Discipline</th>
                 <th>DZ</th>
+                <th>Date</th>
+                
             </thead>
             <tbody>
                 <% for (let skydive of skydives) { %> 
                     <tr>
-                        <td><%= skydive.number %></td>
+                        <td><a href="#"><%= skydive.number %></a></td>
+                        <td><%= skydive.stats.discipline %></td>
                         <td><%= skydive.location.dropzone %></td>
+                        <td><%= skydive.getFormattedDate() %></td>
                     </tr>
                 <% } %>
             </tbody>
