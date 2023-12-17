@@ -1,0 +1,149 @@
+<%- include("../../global/header") %>
+<%- include("../sidenav") %>
+
+</div>
+<div class="row">
+    <div class="col-12">
+        <h1>Add skydive</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="/members/dashboard">Dashboard</a></li>
+              <li class="breadcrumb-item"><a href="/members/skydives/browse">Log book</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Add skydive</li>
+            </ol>
+          </nav>
+    </div>
+</div>
+
+<form action="/members/skydives/add" method="post">
+    <div class="row mb-3">
+        <div class="col-sm-12 col-md-2">
+            <input 
+            type="number" 
+            class="form-control"
+            id="input-jumpNum"
+            name="jumpNum"
+            placeholder="Jump No.">
+        </div>
+        <div class="col-sm-12 col-md-2">
+            <input 
+            type="date" 
+            class="form-control"
+            id="input-date"
+            name="date"
+            placeholder="Date">
+        </div>
+        <div class="col-sm-12 col-md-3">
+            <select 
+            name="aircraft" 
+            id="input-aircraft"
+            class="form-control"
+            >
+        <% for (let aircraft of aircrafts) { %> 
+            <option value="<%= aircraft.manufacturer %> - <%= aircraft.model %>"><%= aircraft.manufacturer %> - <%= aircraft.model %></option>
+        <% } %>
+        </select>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-sm-12 col-md-2">
+            <select 
+            name="country" 
+            id="input-country"
+            class="form-control"
+            >
+        <% for (let country of countries) { %> 
+            <option value="<%= country.name %>"><%= country.name %></option>
+        <% } %>
+        </select>
+        </div>
+        <div class="col-sm-12 col-md-2">
+            <input 
+            type="text" 
+            class="form-control"
+            id="input-dz"
+            name="dz"
+            placeholder="Dropzone">
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-sm-6 col-md-2">
+            <input 
+            type="number" 
+            class="form-control"
+            id="input-altitude"
+            name="altitude"
+            step="1000"
+            placeholder="Altitude (ft.)">
+        </div>
+        <div class="col-sm-6 col-md-2">
+            <input 
+            type="number" 
+            class="form-control"
+            id="input-freefalltime"
+            name="freefalltime"
+            placeholder="Freefall time (in sec.)">
+        </div>
+        <div class="col-sm-12 col-md-3">
+            <select 
+            name="discipline" 
+            id="input-discipline"
+            class="form-control"
+            >
+        <% for (let discipline of disciplines) { %> 
+            <option value="<%= discipline.abbreviation %>"><%= discipline.name %></option>
+        <% } %>
+        </select>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-sm-12 col-md-2">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="input-cutaway" name="cutaway">
+                <label class="form-check-label" for="input-cutaway">
+                  Cut-away?
+                </label>
+              </div>
+        </div>
+        <div class="col-sm-12 col-md-2">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="input-linetwist" name="linetwist">
+                <label class="form-check-label" for="input-linetwist">
+                  Line-twists?
+                </label>
+              </div>
+        </div>
+        <div class="col-sm-12 col-md-3">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="input-progressionJump" name="progressionJump">
+                <label class="form-check-label" for="input-progressionJump">
+                  Student progression jump?
+                </label>
+              </div>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-sm-12 col-md-7">
+            <label for="input-description" class="form-label">Description</label>
+            <textarea class="form-control" id="input-description" name="description" rows="3" maxlength="500"></textarea>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Add</button>
+        </div>
+    </div>
+</form>
+</div>
+</div>
+
+<%- include("../../global/footer") %>

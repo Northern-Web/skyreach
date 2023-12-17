@@ -1,0 +1,45 @@
+<%- include("../../global/header") %>
+<%- include("../sidenav") %>
+
+</div>
+<div class="row">
+    <div class="col-12">
+        <h1>Log book</h1>
+    </div>
+</div>
+<div class="row justify-content-around">
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-11">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="/members/dashboard">Dashboard</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Log book</li>
+            </ol>
+          </nav>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-1">
+        <a href="/members/skydives/add" type="button" class="btn btn-success"> &plus; Add</a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <table class="table table-striped">
+            <thead>
+                <th>#</th>
+                <th>DZ</th>
+            </thead>
+            <tbody>
+                <% for (let skydive of skydives) { %> 
+                    <tr>
+                        <td><%= skydive.number %></td>
+                        <td><%= skydive.location.dropzone %></td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>
+</div>
+
+
+<%- include("../../global/footer") %>
