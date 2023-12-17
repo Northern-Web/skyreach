@@ -18,8 +18,16 @@ exports.getSignupPage = async (req, res, next) => {
 }
 
 exports.getLoginPage = async (req, res, next) => {
+    const failedAttempt = req.query.failedAttempt;
+    var errorMessages = [];
+
+    if (failedAttempt) {
+        errorMessages.push('Incorrect username or password');
+    }
+
     res.status(200).render('home/login', {
         pageTitle: 'Skyreach - Sign in',
-        path: '/login'
+        path: '/login',
+        messages: errorMessages
     });
 }
