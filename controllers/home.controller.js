@@ -31,3 +31,10 @@ exports.getLoginPage = async (req, res, next) => {
         messages: errorMessages
     });
 }
+
+exports.getPageNotFound = async (req, res, next) => {
+    res.status(404).render('global/page-not-found', {
+        pageTitle: 'Skyreach - Page Not Found',
+        path: '/page-not-found'
+    })
+}
