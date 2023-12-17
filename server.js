@@ -19,16 +19,18 @@ app.set('view engine', 'ejs');
 
 
 // Router Requirements
-const homeRoutes    = require("./routes/home.routes");
-const authRoutes    = require("./routes/auth.routes");
-const membersRoutes = require("./routes/members.routes");
+const homeRoutes     = require("./routes/home.routes");
+const authRoutes     = require("./routes/auth.routes");
+const membersRoutes  = require("./routes/members.routes");
 const aircraftRoutes = require("./routes/aircraft.routes");
+const jumpRoutes     = require("./routes/jump.routes");
 
 // Router Uses
 app.use("/", homeRoutes);
 app.use("/auth", authRoutes);
 app.use("/members", membersRoutes);
 app.use("/members/aircrafts", aircraftRoutes);
+app.use("/members/skydives", jumpRoutes);
 
 
 app.listen(process.env.PORT || 3000, () => {
