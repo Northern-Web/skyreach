@@ -14,5 +14,12 @@ exports.getSignupPage = async (req, res, next) => {
         pageTitle: 'Skyreach - Signup',
         path: '/signup',
         countries: permittedCountries
-    })
+    });
+}
+
+exports.getLoginPage = async (req, res, next) => {
+    res.status(200).render('home/login', {
+        pageTitle: 'Skyreach - Sign in',
+        path: '/login'
+    });
 }

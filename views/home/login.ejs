@@ -1,0 +1,52 @@
+<%- include("../global/header") %>
+<%- include("navbar") %>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-lg-4 offset-lg-4">
+            <h1>Sign in</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-lg-4 offset-lg-4">
+            <div class="card">
+                <div class="card-body">
+                    <form action="#" method="post">
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <input 
+                                type="email"
+                                class="form-control"
+                                id="input-email"
+                                name="email"
+                                placeholder="E-mail"
+                                required>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <input 
+                                type="password"
+                                class="form-control"
+                                id="input-password"
+                                name="password"
+                                placeholder="Password"
+                                required>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col">
+                                <button 
+                                type="submit"
+                                class="btn btn-primary">Sign in</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include("../global/footer") %>
