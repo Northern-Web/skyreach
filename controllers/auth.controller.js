@@ -82,5 +82,40 @@ exports.signup = asyncHandler(async (req, res) => {
          res.status(400);
          throw new Error('Account creation failed.');
     }
+})
+
+exports.loginUser = asyncHandler(async (req, res) => {
+    const { email, password } = req.body;
+
+    // Check for missing fields
+    if (!email || !password) {
+        return res.status(400).redirect('/login?failedAttempt=true');
+    }
+
+    // Check if user exists
+    var user = await User.findOne({"email": email});
+    if (!user) {
+        return res.status(404).redirect('/login?failedAttempt=true');
+    }
+
+    // Check if password is valid
+    var isPasswordValid = bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid) {
+        return res.status(400).redirect('/login?failedAttempt=true');
+    }
+
+    // Check if account is active
+    if (!user.account.isActive) {
+        return res.status(400).redirect('/login?failedAttempt=true');
+    }
+
+    const token = await user.tokenGenerator();
+
+    user.account.lastLogin = new Date();
+    user.save();
+
+    res.cookie('x-access-token',token, await user.getCookieOptions()) 
+    res.status(200).redirect('/members/dashboard');
 
 })
