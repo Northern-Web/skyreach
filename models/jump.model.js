@@ -91,5 +91,16 @@ var JumpSchema = new mongoose.Schema({
 
 JumpSchema.plugin(timestamp);
 
+JumpSchema.methods.getFormattedDate = function () {
+    var year  = this.date.getFullYear();
+    var month = this.date.getMonth();
+    var day   = this.date.getDate();
+
+    var formatDay   = (day < 10 ? '0' + day : day);
+    var formatMonth = (month < 10 ? '0' + month : month);
+    var dateStr = `${formatDay}.${formatMonth}.${year}`;
+    return dateStr;
+}
+
 var Jump = mongoose.model('Jump', JumpSchema);
 module.exports = { Jump };
