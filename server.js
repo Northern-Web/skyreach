@@ -1,7 +1,8 @@
-const express   = require('express');
-const mongoose  = require('mongoose');
-var bodyParser  = require('body-parser');
-const ejs       = require('ejs');
+const express    = require('express');
+const mongoose   = require('mongoose');
+var bodyParser   = require('body-parser');
+var cookieParser = require('cookie-parser')
+const ejs        = require('ejs');
 
 require('dotenv').config();
 
@@ -12,17 +13,20 @@ app.use(express.json());
 app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
 app.set('view engine', 'ejs');
 
 
 
 // Router Requirements
-const homeRoutes = require("./routes/home.routes");
-const authRoutes = require("./routes/auth.routes");
+const homeRoutes    = require("./routes/home.routes");
+const authRoutes    = require("./routes/auth.routes");
+const membersRoutes = require("./routes/members.routes");
 
 // Router Uses
 app.use("/", homeRoutes);
 app.use("/auth", authRoutes);
+app.use('/members', membersRoutes);
 
 
 app.listen(process.env.PORT || 3000, () => {
