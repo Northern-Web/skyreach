@@ -1,14 +1,14 @@
 <%- include("../../global/header") %>
-<%- include("../sidenav") %>
+<%- include("../member-navbar") %>
 
 </div>
 <div class="row">
-    <div class="col-12">
+    <div class="col-11 offset-1">
         <h1>Log book</h1>
     </div>
 </div>
-<div class="row justify-content-around">
-    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-11">
+<div class="row">
+    <div class="col-xs-6 offset-xs-1 col-sm-6 offset-sm-1 offset-sm-1 col-md-8 offset-md-1 col-lg-9 offset-lg-1 col-xl-9 offset-xl-1">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
               <li class="breadcrumb-item"><a href="/members/dashboard">Dashboard</a></li>
@@ -16,12 +16,12 @@
             </ol>
           </nav>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-1">
-        <a href="/members/skydives/add" type="button" class="btn btn-success"> &plus; Add</a>
+    <div class="col-xs-4 col-sm-4 col-md-2 col-lg-1 col-xl-1 text-end">
+        <a href="/members/skydives/add" type="button" class="btn btn-sm btn-success">Add &plus;</a>
     </div>
 </div>
 <div class="row">
-    <div class="col-12">
+    <div class="col-xs-10 offset-xs-1 col-sm-10 offset-sm-1 col-md-10 offset-md-1 col-lg-10 offset-lg-1 col-xl-10 offset-xl-1">
         <table class="table table-striped">
             <thead>
                 <th>#</th>
