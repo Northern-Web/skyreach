@@ -24,10 +24,12 @@ const authRoutes     = require("./routes/auth.routes");
 const membersRoutes  = require("./routes/members.routes");
 const aircraftRoutes = require("./routes/aircraft.routes");
 const jumpRoutes     = require("./routes/jump.routes");
+const userRoutes     = require("./routes/user.routes");
 
 // Router Uses
 app.use("/", homeRoutes);
 app.use("/auth", authRoutes);
+app.use("/users", userRoutes);
 app.use("/members", membersRoutes);
 app.use("/members/aircrafts", aircraftRoutes);
 app.use("/members/skydives", jumpRoutes);
