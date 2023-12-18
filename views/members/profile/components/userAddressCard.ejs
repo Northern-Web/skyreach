@@ -1,0 +1,67 @@
+<div class="card text-bg-light mb-3" style="max-width: 18rem;">
+    <div class="card-header">Address</div>
+    <div class="card-body">
+        <form action="/users/address" method="post">
+            <div class="mb-1">
+                <label for="input-streetname-1" class="form-label">Street name 1</label>
+                <input 
+                type="text" 
+                class="form-control" 
+                id="input-streetname-1"
+                name="streetname1"
+                value="<%= user.address.streetName1 %>">
+              </div>
+
+              <div class="mb-1">
+                <label for="input-streetname-2" class="form-label">Street name 2</label>
+                <input 
+                type="text" 
+                class="form-control" 
+                id="input-streetname-2"
+                name="streetname2"
+                value="<%= user.address.streetName2 %>">
+              </div>
+
+              <div class="mb-1">
+                <label for="input-region" class="form-label">Region</label>
+                <input 
+                type="text" 
+                class="form-control" 
+                id="input-region"
+                name="region"
+                value="<%= user.address.region %>">
+              </div>
+
+              <div class="row mb-1">
+                <div class="col-6">
+                    <label for="input-zipcode" class="form-label">Zip code</label>
+                    <input 
+                    type="text" 
+                    class="form-control" 
+                    id="input-zipcode"
+                    name="zipcode"
+                    value="<%= user.address.zipCode %>">
+                </div>
+                <div class="col-6">
+                    <label for="input-city" class="form-label">City</label>
+                    <input 
+                    type="text" 
+                    class="form-control" 
+                    id="input-city"
+                    name="city"
+                    value="<%= user.address.city %>">
+                </div>
+              </div>
+
+              <div class="mb-1">
+                <%- include("../../../global/components/CountrySelector") %>
+              </div>
+
+              <div class="row">
+                <div class="col-12">
+                    <button type="submit" class="btn btn-sm btn-primary">Update</button>
+                </div>
+              </div>
+        </form>
+    </div>
+</div>
