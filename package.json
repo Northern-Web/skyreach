@@ -21,8 +21,7 @@
     "jsonwebtoken": "^9.0.2",
     "lodash": "^4.17.21",
     "mongoose": "^8.0.3",
-    "mongoose-timestamp": "^0.6.0",
-    "purecss": "^3.0.0"
+    "mongoose-timestamp": "^0.6.0"
   },
   "devDependencies": {
     "grunt": "^1.6.1",
