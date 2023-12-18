@@ -1,31 +1,31 @@
 <%- include("../../global/header") %>
-<%- include("../sidenav") %>
+<%- include("../member-navbar") %>
 
 </div>
     <div class="row">
-        <div class="col-12">
+        <div class="col-10 offset-1">
             <h1><%= aircraft.manufacturer %></h1>
         </div>
     </div>
     <div class="row">
-        <div class="col-12">
+        <div class="col-10 offset-1">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                   <li class="breadcrumb-item"><a href="/members/dashboard">Dashboard</a></li>
-                  <li class="breadcrumb-item"><a href="/members/aircrafts/overview">Aircrafts</a></li>
+                  <li class="breadcrumb-item"><a href="/members/aircrafts/browse">Aircrafts</a></li>
                   <li class="breadcrumb-item active" aria-current="page">Details</li>
                 </ol>
               </nav>
         </div>
     </div>
     <div class="row">
-        <div class="col-12">
+        <div class="col-10 offset-1">
             <h2><%= aircraft.model%></h2>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-xs-12 col-md-3 col-lg-3">
+        <div class="col-3 offset-1">
             <img 
             src="<%= aircraft.img.url %>" 
             class="img-thumbnail" 
@@ -33,7 +33,7 @@
             alt="<%= aircraft.img.credit %>"
             title="<%= aircraft.img.credit %>">
         </div>
-        <div class="col-xs-12 col-md-3 col-lg-3">
+        <div class="col-3">
             <table class="table table-striped">
                 <thead>
                     <th>Property</th>
