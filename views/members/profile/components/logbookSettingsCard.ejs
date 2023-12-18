@@ -1,0 +1,29 @@
+<div class="card text-bg-light mb-3" style="max-width: 18rem;">
+    <div class="card-header">Logbook</div>
+    <div class="card-body">
+        <form action="/users/logbookSharing" method="post">
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" id="sharedLogbookSwtich" name="isLogbookShared" <%= (user.logbook.isShared ? "checked" : "") %>>
+                        <label class="form-check-label" for="sharedLogbookSwtich">Share logbook</label>
+                      </div>
+                </div>
+            </div>
+
+              <div class="row mb-3">
+                <div class="col-12">
+                    <button type="submit" class="btn btn-sm btn-primary">Update</button>
+                </div>
+              </div>
+
+              <% if (user.logbook.isShared) { %> 
+                <div class="row">
+                    <div class="col-12">
+                        <a href="#"><small>https://localhost:3000/members/shared/logbook/<%= user.id %></small></a>
+                    </div>
+                </div>
+            <% } %>
+        </form>
+    </div>
+</div>
