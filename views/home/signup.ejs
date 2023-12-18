@@ -103,11 +103,7 @@
                         </div>
 
                         <div class="col-xs-12 col-sm-12 col-lg-6">
-                            <select class="form-select" aria-label="Select country" name="country">
-                            <% for (let country of countries) { %> 
-                            <option value="<%= country.isoCode %>"><%= country.name %></option>
-                            <% } %>
-                            </select>
+                            <%- include("../global/components/CountrySelector") %>
                         </div>
                     </div>
 
