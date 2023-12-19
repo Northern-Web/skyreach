@@ -1,12 +1,15 @@
 <%- include("../../global/header") %>
-<%- include("../member-navbar") %>
+<% if (isMember) { %>
+    <%- include("../member-navbar") %>
+<% } %>
 
 </div>
 <div class="row">
     <div class="col-11 offset-1">
-        <h1>Log book</h1>
+        <h1><%= title %></h1>
     </div>
 </div>
+<% if (isMember) { %>
 <div class="row">
     <div class="col-xs-6 offset-xs-1 col-sm-6 offset-sm-1 offset-sm-1 col-md-8 offset-md-1 col-lg-9 offset-lg-1 col-xl-9 offset-xl-1">
         <nav aria-label="breadcrumb">
@@ -20,6 +23,14 @@
         <a href="/members/skydives/add" type="button" class="btn btn-sm btn-success">Add &plus;</a>
     </div>
 </div>
+<% } else { %>
+<div class="row">
+    <div class="col-11 offset-1">
+        <h2><%= subTitle %></h2>
+    </div>
+</div>
+<% } %>
+
 <div class="row">
     <div class="col-xs-10 offset-xs-1 col-sm-10 offset-sm-1 col-md-10 offset-md-1 col-lg-10 offset-lg-1 col-xl-10 offset-xl-1">
         <table class="table table-striped">
@@ -43,8 +54,19 @@
         </table>
     </div>
 </div>
+<% if (!isMember) { %> 
+<div class="row">
+    <div class="col-12 text-center">
+        <p><small><%= subTitle %> has shared this logbook using <a href="/">Skyreach</a>.</small></p>
+        <p><small>Dont' have an account? <a href="/signup">Sign up</a> for a free trial and explore your logbook in the cloud.</small></p>
+        <p><small>Blue skies!</small></p>
+
+    </div>
+</div>
+<% } %>
 </div>
 </div>
 
-
+<% if (isMember) { %> 
 <%- include("../../global/footer") %>
+<% } %>

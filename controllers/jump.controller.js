@@ -26,10 +26,39 @@ exports.getLogbookPage = async (req, res, next) => {
     var jumps   = await Jump.find({"owner": decoded.id}).sort('date');
 
     res.status(200).render('members/skydives/browse', {
-        pageTitle: 'Skyreach - Log book',
+        pageTitle: 'Skyreach - Logbook',
+        title: 'Logbook',
+        subTitle: '',
         path: '/members/skydives/browse',
+        isMember: true,
         skydives: jumps
     });
+}
+
+exports.getSharedLoogbookPage = async (req, res, next) => {
+    const id = req.params.id;
+
+    if (!id) {
+        res.status(404).redirect('/page-not-found');
+    }
+
+    const user  = await User.findById(id);
+    const jumps = await Jump.find({"owner": id}).sort('-number');
+
+    if (!user || !user.logbook.isShared) {
+        res.status(404).redirect('/page-not-found');
+    }
+
+    res.status(200).render('members/skydives/browse', {
+        pageTitle: 'Logbook',
+        title: 'Logbook',
+        subTitle: user.name,
+        path: '/members/skydives/browse',
+        isMember: false,
+        skydives: jumps
+    });
+
+
 }
 
 exports.registerJump = async (req, res, next) => {
