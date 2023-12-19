@@ -25,3 +25,12 @@
 .cloud {
 
 }
+
+.footer-link {
+    color: fff;
+    text-decoration: none;
+}
+
+.footer-link :hover {
+    color:  #007bff !important;
+}
