@@ -20,7 +20,7 @@
               <% if (user.logbook.isShared) { %> 
                 <div class="row">
                     <div class="col-12">
-                        <a href="#"><small>https://localhost:3000/members/shared/logbook/<%= user.id %></small></a>
+                        <a href="/members/skydives/shared/browse/<%= user.id %>" lang="en" target="_blank"><small><%= baseUrl %>/members/skydives/shared/browse/<%= user.id %></small></a>
                     </div>
                 </div>
             <% } %>

@@ -1,6 +1,7 @@
 const { User }    = require('./../models/user.model');
 const { Country } = require('./../models/country.model');
 const jwt      = require("jsonwebtoken");
+require("dotenv").config();
 
 exports.getDashboardPage = async (req, res, next) => {
     res.status(200).render('members/dashboard', {
@@ -23,6 +24,7 @@ exports.getProfilePage = async (req, res, next) => {
       pageTitle: 'Skyreach - Profile',
       path: '/members/profile/',
       user: user,
-      countries: countries
+      countries: countries,
+      baseUrl: process.env.BASE_URL
   });
 }
