@@ -29,3 +29,25 @@ exports.updateUserAddress = async (req, res, next) => {
     res.status(200).redirect('/members/profile');
 
 }
+
+exports.toggleLogbookSharing = async (req, res, next) => {
+    const { isLogbookShared } = req.body;
+
+    let token = req.cookies["x-access-token"];
+    if (!token) {
+        return res.status(404).redirect('/page-not-found');
+    }
+    const decoded    = await jwt.verify(token, process.env.JWT_SECRET);
+    var user       = await User.findById(decoded.id);
+
+    var newLogbook = {
+        "isShared": (isLogbookShared) ? true : false
+    }
+
+    user.logbook = newLogbook;
+    user.save();
+    setTimeout(() => {
+        console.log("Delay of 0,2 sec applied.");
+    }, 200);
+    res.status(200).redirect('/members/profile');
+}
