@@ -5,10 +5,9 @@ const asyncHandler = require("express-async-handler");
 const jwt          = require("jsonwebtoken");
 const bcrypt       = require("bcryptjs");
 
-
 exports.signup = asyncHandler(async (req, res) => {
     const { name, email, password, streetname1, streetname2, region, zipCode, city, country } = req.body;
-    console.log(req.body);
+
     // Check that required fields are present
     if (!name || !email || !password || !streetname1 || !region || !zipCode || !city || !country) {
         res.status(400);
@@ -51,7 +50,8 @@ exports.signup = asyncHandler(async (req, res) => {
     var timestamp = new Date();
 
     try {
-        user.save();
+        await user.save();
+        
         EventLog.create({
            "category":     'Account Creation',
            "description":  'A new account has been created!',
