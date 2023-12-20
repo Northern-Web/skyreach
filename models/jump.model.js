@@ -1,5 +1,6 @@
 const mongoose  = require('mongoose');
 const timestamp = require('mongoose-timestamp');
+var moment      = require('moment');
 
 var JumpSchema = new mongoose.Schema({
   number: {
@@ -13,6 +14,10 @@ var JumpSchema = new mongoose.Schema({
   aircraft: {
     type: String,
     required: true,
+    trim: true
+  },
+  canopy: {
+    type: String,
     trim: true
   },
   location: {
@@ -97,14 +102,7 @@ var JumpSchema = new mongoose.Schema({
 JumpSchema.plugin(timestamp);
 
 JumpSchema.methods.getFormattedDate = function () {
-    var year  = this.date.getFullYear();
-    var month = this.date.getMonth();
-    var day   = this.date.getDate();
-
-    var formatDay   = (day < 10 ? '0' + day : day);
-    var formatMonth = (month < 10 ? '0' + month : month);
-    var dateStr = `${formatDay}.${formatMonth}.${year}`;
-    return dateStr;
+    return moment(this.date).locale('nb').format('L');
 }
 
 var Jump = mongoose.model('Jump', JumpSchema);
