@@ -2,6 +2,7 @@
 <%- include("navbar") %>
 
 <div class="container-fluid">
+    <script src="/assets/scripts/signup.js"></script>
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-lg-4 offset-lg-4 mt-5">
             <h1>Sign up for Skyreach</h1>
@@ -110,15 +111,15 @@
                     <div class="row mb-2">
                         <div class="col-12">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="tosOptin" name="tosOptin">
-                                <label class="form-check-label" for="flexCheckDefault">
+                                <input class="form-check-input" type="checkbox" value="" id="tosOptin" name="tosOptin" onchange="ToggleSigninButton()">
+                                <label class="form-check-label" for="tosOptin">
                                     I agree to the <a href="#">terms of service</a>.
                                 </label>
                               </div>
                 
                               <div class="form-check">
                                 <input class="form-check-input" type="checkbox" value="" id="marketingOptin" name="marketingOptin" checked>
-                                <label class="form-check-label" for="flexCheckDefault">
+                                <label class="form-check-label" for="marketingOptin">
                                     I would like to receive marketing communications.
                                 </label>
                               </div>
@@ -129,7 +130,8 @@
                         <div class="col">
                             <button 
                             type="submit"
-                            class="btn btn-primary" id="btnSignUp" disabled>Sign up</button>
+                            class="btn btn-primary disabled" 
+                            id="btnSignUp">Sign up</button>
                         </div>
                     </div>
 
@@ -144,7 +146,7 @@
             <a class="text-center" href="/">&#8592; Return home</a>
         </div>
     </div>
-    <script scr="/assets/scripts/signup.js" type="application/javascript"></script>
+
 </div>
 
 
