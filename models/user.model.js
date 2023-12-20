@@ -80,6 +80,23 @@ var UserSchema = new mongoose.Schema({
     },
     lastLogin: {
       type: Date
+    },
+    consents: {
+      termsOfService: {
+        isAccepted: {
+          type: Boolean,
+          required: true
+        },
+        dateChanged: {
+          type: Date
+        }
+      },
+      marketing: {
+        isAccepted: {
+          type: Boolean,
+          required: true
+        }
+      }
     }
   }
 });
