@@ -6,7 +6,8 @@ const jwt          = require("jsonwebtoken");
 const bcrypt       = require("bcryptjs");
 
 exports.signup = asyncHandler(async (req, res) => {
-    const { name, email, password, streetname1, streetname2, region, zipCode, city, country } = req.body;
+    const { name, email, password, streetname1, streetname2, region, 
+            zipCode, city, country, tosOptin, marketingOptin } = req.body;
 
     // Check that required fields are present
     if (!name || !email || !password || !streetname1 || !region || !zipCode || !city || !country) {
@@ -30,7 +31,7 @@ exports.signup = asyncHandler(async (req, res) => {
 
     // Establish trial period
     var date = new Date();
-    date.setDate(date.getDate() + 30);
+    var trialPeriod = date.setDate(date.getDate() + 30);
 
     // Create user
     var user = new User({
@@ -44,7 +45,10 @@ exports.signup = asyncHandler(async (req, res) => {
         "address.city": city,
         "address.country": selectedCountry.name,
         "address.countryCode": selectedCountry.isoCode,
-        "account.trialPeriodEnd": date
+        "account.trialPeriodEnd": trialPeriod,
+        "account.consents.termsOfService.isAccepted": (tosOptin) ? true : false,
+        "account.consents.termsOfService.dateChanged": date,
+        "account.consents.marketing.isAccepted": (tosMarketing) ? true : false
     });
 
     var timestamp = new Date();
