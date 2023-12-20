@@ -48,7 +48,7 @@ exports.signup = asyncHandler(async (req, res) => {
         "account.trialPeriodEnd": trialPeriod,
         "account.consents.termsOfService.isAccepted": (tosOptin) ? true : false,
         "account.consents.termsOfService.dateChanged": date,
-        "account.consents.marketing.isAccepted": (tosMarketing) ? true : false
+        "account.consents.marketing.isAccepted": (marketingOptin) ? true : false
     });
 
     var timestamp = new Date();
