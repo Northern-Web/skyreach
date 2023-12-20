@@ -12,9 +12,21 @@ var AircraftSchema = new mongoose.Schema({
     required: true
   },
   img: {
-    url: {
+    publicUrl: {
         type: String,
         trim: true
+    },
+    authenticatedUrl: {
+      type: String,
+      trim: true
+    },
+    folder: {
+      type: String,
+      trim: true
+    },
+    fileName: {
+      type: String,
+      trim: true
     },
     credit: {
         type: String,
