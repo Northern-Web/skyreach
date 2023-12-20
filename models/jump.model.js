@@ -82,6 +82,11 @@ var JumpSchema = new mongoose.Schema({
             trim: true
         }
     },
+    isLocked: {
+        type: Boolean,
+        required: true,
+        default: false
+    },
     owner: {
         type: String,
         required: true,
