@@ -2,8 +2,9 @@ const { Aircraft }   = require('./../models/aircraft.model');
 const { Discipline } = require('./../models/discipline.model');
 const { Country }    = require('./../models/country.model');
 const { User }       = require("./../models/user.model");
+const { Jump }       = require('./../models/jump.model');
 const jwt            = require("jsonwebtoken");
-const { Jump } = require('../models/jump.model');
+var moment = require('moment');
 require("dotenv").config();
 
 exports.getRegistrationPage = async (req, res, next) => {
@@ -62,9 +63,9 @@ exports.getSharedLoogbookPage = async (req, res, next) => {
 }
 
 exports.registerJump = async (req, res, next) => {
-    const { jumpNum, date, aircraft, country, dz,
-            altitude, freefalltime, discipline, 
-            cutaway, linetwists, progressionJump, description
+    const { jumpNum, date, aircraft, canopy, country, dz,
+            altitude, freefalltime, discipline, cutaway,
+            linetwists, progressionJump, description
     } = req.body;
 
     let token = req.cookies["x-access-token"];
@@ -75,11 +76,13 @@ exports.registerJump = async (req, res, next) => {
     var decoded    = await jwt.verify(token, process.env.JWT_SECRET);
     var user       = await User.findById(decoded.id);
     var newCountry = await Country.findOne({"name": country});
+    var jumpDate = await moment(date).local(true);
 
     var jump = new Jump({
         "number": jumpNum,
-        "date": date,
+        "date": jumpDate,
         "aircraft": aircraft,
+        "canopy": canopy,
         "location.country": newCountry.name,
         "location.countryCode": newCountry.isoCode,
         "location.dropzone": dz,
