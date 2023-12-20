@@ -8,13 +8,23 @@
 </div>
 
 <div class="row">
-    <div class="col-3 offset-1"></div>
+    <div class="col-3 offset-1">
+        <%- include("./components/userInfoCard") %>
+    </div>
     <div class="col-5">
         <%- include("./components/userAddressCard") %>
     </div>
     <div class="col-3">
         <%- include("./components/logbookSettingsCard") %>
     </div>
+</div>
+
+<div class="row">
+    <div class="col-4">
+        <%- include("./components/documentUploadForm") %>
+    </div>
+    <div class="col-4"></div>
+    <div class="col-4"></div>
 </div>
 
 <%- include("../../global/footer") %>
