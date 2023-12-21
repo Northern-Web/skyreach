@@ -1,4 +1,122 @@
 <%- include("../../global/header") %>
-<%- include("../sidenav") %>
+<% if (isMember) { %>
+    <%- include("../member-navbar") %>
+<% } %>
 
-<%- include("../../global/footer") %>
+<div class="container-fluid">
+<div class="row">
+    <div class="col-11">
+        <h2>Skydive # <%= skydive.number %></h2>
+    </div>
+</div>
+
+<% if (isMember) { %>
+    <div class="row">
+        <div class="col-6">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="/members/dashboard">Dashboard</a></li>
+                  <li class="breadcrumb-item"><a href="/members/skydives/browse">Logbook</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">View Item</li>
+                </ol>
+              </nav>
+        </div>
+    </div>
+<% } else { %>
+    <div class="row">
+        <div class="col-11">
+            <h4><%= subTitle %></h4>
+        </div>
+    </div>
+<% } %>
+
+<div class="row mb-3">
+    <div class="col-12">
+        <span class="badge text-bg-secondary"><%= discipline.name %></span>
+
+        <% if (skydive.stats.isProgressionJump) { %> 
+            <span class="badge text-bg-info">Student Progression</span>
+        <% } %>
+
+        <% if (skydive.stats.isLineTwist) { %> 
+            <span class="badge text-bg-warning">Line Twist</span>
+        <% } %>
+
+        <% if (skydive.stats.isEmergencyProcedure) { %> 
+            <span class="badge text-bg-danger">Cut-away</span>
+        <% } %>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-11 col-md-5 col-lg-5">
+        <div class="card text-bg-light mb-3">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <p><strong>Skydive #: </strong><%= skydive.number %></p>
+                        <p><strong>Date: </strong><%= skydive.getFormattedDate() %></p>
+                        <p><strong>Dropzone: </strong><%= skydive.location.dropzone %></p>
+                        <p><strong>Country: </strong><%= skydive.location.country %></p>
+                    </div>
+                </div>     
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-11 col-md-5 col-lg-5">
+        <div class="card text-bg-light mb-3">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <p><strong>Aircraft: </strong><%= skydive.aircraft %></p>
+                        <p><strong>Canopy: </strong><%= skydive.canopy %></p>
+                        <p><strong>Altitude: </strong><%= skydive.stats.altitude.toLocaleString('nb-NO') %> ft.</p>
+                        <p><strong>Freefall Time: </strong><%= skydive.stats.freefalltime %> sec.</p>
+                    </div>
+                </div>     
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<div class="row">
+    <div class="col-sm-11 col-md-10">
+        <div class="card text-bg-light mb-3">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <p><strong>Log Remarks</strong></p>
+                        <p><%= skydive.description %></p>
+                    </div>
+                </div>     
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-11">
+        <p><small><em>Skydive ID: <%= skydive.id %></em></small></p>
+    </div>
+</div>
+
+<% if (!isMember) { %> 
+    <div class="row">
+        <div class="col-12 text-center">
+            <p><small><%= subTitle %> has shared this logbook using <a href="/">Skyreach</a>.</small></p>
+            <p><small>Dont' have an account? <a href="/signup">Sign up</a> for a free trial and explore your logbook in the cloud.</small></p>
+            <p><small>Blue skies!</small></p>
+        </div>
+    </div>
+<% } %>
+
+</div>
+
+
+
+<% if (isMember) { %> 
+    <%- include("../../global/footer") %>
+<% } %>

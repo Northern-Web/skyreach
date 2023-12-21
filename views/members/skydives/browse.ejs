@@ -44,7 +44,18 @@
 </div>
 <% } %>
 
-<div class="row">
+<% if (isMember) { %>
+    <% if (isShared) { %>
+        <div class="row">
+            <div class="col-10 offset-1">
+                <div class="alert alert-warning" role="alert">
+                    Your logbook is currently shared. You can turn off logbook sharing in your <a href="/members/profile" lang="en" target="_self">profile</a> in case this is unintended..
+                  </div>
+            </div>
+        </div>
+    <% } %> 
+<% } %>
+<div class="row mb-3">
     <div class="col-xs-10 offset-xs-1 col-sm-10 offset-sm-1 col-md-10 offset-md-1 col-lg-10 offset-lg-1 col-xl-10 offset-xl-1">
         <table class="table table-striped">
             <thead>
@@ -57,7 +68,12 @@
             <tbody>
                 <% for (let skydive of skydives) { %> 
                     <tr>
-                        <td><a href="#"><%= skydive.number %></a></td>
+                        <% if (isMember) { %> 
+                            <td><a href="/members/skydives/view/<%= skydive.id %>"><%= skydive.number %></a></td>
+                        <% } else { %>
+                            <td><a href="/members/skydives/shared/view/<%= userId %>/<%= skydive.id %>"><%= skydive.number %></a></td>
+                        <% } %>
+
                         <td><%= skydive.stats.discipline %></td>
                         <td><%= skydive.location.dropzone %></td>
                         <td><%= skydive.getFormattedDate() %></td>
@@ -73,7 +89,6 @@
         <p><small><%= subTitle %> has shared this logbook using <a href="/">Skyreach</a>.</small></p>
         <p><small>Dont' have an account? <a href="/signup">Sign up</a> for a free trial and explore your logbook in the cloud.</small></p>
         <p><small>Blue skies!</small></p>
-
     </div>
 </div>
 <% } %>
