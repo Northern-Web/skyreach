@@ -2,6 +2,7 @@ const { User }    = require('./../models/user.model');
 const { Country } = require('./../models/country.model');
 const { format } = require("util");
 const { Storage } = require("@google-cloud/storage");
+const { UserService } = require('./../services/userService');
 const jwt         = require("jsonwebtoken");
 const processFile = require("../middleware/upload");
 const storage = new Storage({ keyFilename: "./gcs_service_account.json" });
@@ -60,20 +61,13 @@ exports.toggleLogbookSharing = async (req, res, next) => {
 exports.uploadUserDocument = async (req, res, next) => {
     try {
         await processFile(req, res);
-
-        console.log(req.file);
-        //console.log(req.file.filename);
     
         if (!req.file) {
           return res.status(400).send({ message: "Please upload a file!" });
         }
 
-        let token = req.cookies["x-access-token"];
-        if (!token) {
-            return res.status(404).redirect('/page-not-found');
-        }
-        const decoded  = await jwt.verify(token, process.env.JWT_SECRET);
-        const user     = await User.findById(decoded.id);
+        const user = await UserService.GetUserFromToken(req.cookies);
+
     
         // Create a new blob in the bucket and upload the file data.
         const blob = bucket.file(`${user.id}/${req.file.originalname}`);
