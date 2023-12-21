@@ -1,9 +1,14 @@
 const { Aircraft }   = require('./../models/aircraft.model');
 const { Discipline } = require('./../models/discipline.model');
 const { Country }    = require('./../models/country.model');
+const { Import }     = require('./../models/import.model');
 const { User }       = require("./../models/user.model");
 const { Jump }       = require('./../models/jump.model');
+const { SkydiveService } = require('./../services/skydiveService');
+const { UserService }    = require('./../services/userService');
 const jwt            = require("jsonwebtoken");
+const processFile = require("../middleware/upload");
+
 var moment = require('moment');
 require("dotenv").config();
 
@@ -62,6 +67,19 @@ exports.getSharedLoogbookPage = async (req, res, next) => {
 
 }
 
+exports.getImportPage = async (req, res) => {
+    const user = await UserService.GetUserFromToken(req.cookies);
+    const imports = await Import.find({"owner": user.id, "flags.isImported": false});
+
+    res.status(200).render('members/skydives/import', {
+        pageTitle: 'Import Skydives',
+        title: 'Import',
+        path: '/members/skydives/import',
+        imports: imports
+    });
+
+}
+
 exports.registerJump = async (req, res, next) => {
     const { jumpNum, date, aircraft, canopy, country, dz,
             altitude, freefalltime, discipline, cutaway,
@@ -98,5 +116,20 @@ exports.registerJump = async (req, res, next) => {
 
     jump.save();
     res.status(201).redirect('/members/skydives/browse');
+
+}
+
+exports.uploadExcel = async (req, res) => {
+    await processFile(req, res);
+
+    if (!req.file) {
+        return res.status(400).send({ message: "Please upload a file!" });
+    }
+
+    const user = await UserService.GetUserFromToken(req.cookies);
+
+    const response = await SkydiveService.UploadExcel(req.file, user, res);
+    return response;
+
 
 }
