@@ -1,18 +1,40 @@
 <%- include("../global/header") %>
 <%- include("member-navbar") %>
 
-</div>
-    <div class="col-md-9">
-    <h1>My Dashboard</h1>
-    <p>This is some content.</p>
-
+<div class="container-fluid">
     <div class="row">
-        <div class="col-4 offset-4">
-            <p>More content</p>
+        <div class="col-12">
+            <h1>My Dashboard</h1>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-12 text-center">
+            <h4><%= stats.currentYear %></h4>
+        </div>
+    </div>
+
+    <div class="row mb-1">
+        <%- include('components/currentYearSkydivesCard') %>
+        <%- include('components/currentYearDropCard') %>
+        <%- include('components/currentYearFreefalltimeCard') %>
+    </div>
+
+
+
+    <div class="row mb-1">
+        <div class="col-12 text-center">
+            <h4>Lifetime</h4>
+        </div>
+    </div>
+
+    <div class="row mb-5">
+        <%- include('components/totalSkydivesCard') %>
+        <%- include('components/totalDropCard') %>
+        <%- include('components/totalFreefalltimeCard') %>
+    </div>
 </div>
-</div>
-</div>
+ 
+
 
 <%- include("../global/footer") %>

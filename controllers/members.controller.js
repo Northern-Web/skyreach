@@ -1,12 +1,21 @@
 const { User }    = require('./../models/user.model');
 const { Country } = require('./../models/country.model');
-const jwt      = require("jsonwebtoken");
+const { SkydiveService } = require('./../services/skydiveService');
+const jwt         = require("jsonwebtoken");
 require("dotenv").config();
 
 exports.getDashboardPage = async (req, res, next) => {
+  let token = req.cookies["x-access-token"];
+  const decoded = await jwt.verify(token, process.env.JWT_SECRET);
+  var user      = await User.findById(decoded.id);
+
+    const stats = await SkydiveService.GetDashboardStats(user);
+    console.log(stats);
+
     res.status(200).render('members/dashboard', {
       pageTitle: 'Skyreach - Dashboard',
-      path: '/members/dashboard'
+      path: '/members/dashboard',
+      stats: stats
     });
 }
 

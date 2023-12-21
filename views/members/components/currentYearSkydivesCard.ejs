@@ -1,0 +1,35 @@
+<div class="col-sm-6 col-md-3 col-lg-3">
+    <div class="card shadow">
+      <div class="card-title">
+        <strong>Current Year Skydives</strong>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-8">
+            <span class="stat-number"><strong><%= stats.currentYearSkydives.toLocaleString('nb-NO') %></strong></span>
+          </div>
+          <div class="col-4">
+            <div class="icon icon-shape bg-primary rounded-circle">
+              <i class="fas fa-plane-departure fc-white"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mt-3">
+          <div class="col-5">
+            <span>
+              <% if (stats.isMoreSkydives) { %> 
+               <i class="fas fa-arrow-up text-success"></i>
+                
+              <% } else { %>
+                <i class="fas fa-arrow-down text-danger"></i>
+              <% } %>
+
+              <small class="<%= (stats.isMoreSkydives) ? 'text-success' : 'text-danger' %>">&nbsp;<%= stats.relativeSkydiveChange.toLocaleString('nb-NO', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %> %</small>
+            </span>
+
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
