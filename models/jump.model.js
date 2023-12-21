@@ -96,6 +96,11 @@ var JumpSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true
+    },
+    uploadMethod: {
+        type: String,
+        enum: [ 'Single Entry', 'Excel Import', 'CSV Import' ],
+        default: 'Single Entry'
     }
 });
 
