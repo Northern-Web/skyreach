@@ -1,5 +1,15 @@
-const { Jump } = require('./../models/jump.model');
-var moment = require('moment');
+const { Jump }    = require('./../models/jump.model');
+const { User }    = require("./../models/user.model");
+const { format }  = require("util");
+const { Storage } = require("@google-cloud/storage");
+const { Import }  = require('./../models/import.model');
+const storage     = new Storage({ keyFilename: "./gcs_service_account.json" });
+const bucket      = storage.bucket("skyreach-user-files");
+const processFile = require("../middleware/upload");
+const xlsx        = require('xlsx');
+const uuid        = require('uuid');
+var moment        = require('moment');
+
 
 class SkydiveService {
 
@@ -81,6 +91,56 @@ class SkydiveService {
         } else {
           this.isBetter = false;
         }
+    }
+
+    static async UploadExcel (file, user, res) {
+        try {
+
+            const newFileName = uuid.v4();
+            const fileType = '.xlsx';
+            const gcsPath = `${user.id}/imports/${newFileName}${fileType}`;
+
+            // Create a new blob in the bucket and upload the file data.
+            const blob = bucket.file(gcsPath);
+            const blobStream = blob.createWriteStream({
+            resumable: false,
+            });
+
+            blobStream.on("error", (err) => {
+                return res.status(500).json({ 
+                    success: false,
+                    msg: err.message });
+              });
+
+            blobStream.on("finish", async (data) => {
+               
+                var skydiveImport = new Import({
+                    "originalFileName": file.originalname,
+                    "generatedFileName": newFileName + fileType,
+                    "fileType": fileType,
+                    "gcsPath": gcsPath,
+                    "owner": user.id
+                });
+                skydiveImport.save();
+
+                return res.status(200).json({
+                success: true,
+                message: "Uploaded the file successfully"
+                });
+              });
+   
+              blobStream.end(file.buffer);
+
+
+
+        } catch (err) {
+            console.log(err);
+            return res.status(500).json({
+                success: false,
+                msg: `Could not upload file: ${err}`
+            });
+        }
+
     }
 }
 module.exports = { SkydiveService };
