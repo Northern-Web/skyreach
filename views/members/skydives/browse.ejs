@@ -30,7 +30,7 @@
               Import
             </button>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Excel <small><span class="badge text-bg-primary">Coming soon</span></small></a></li>
+              <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#ExcelModal"><i class="fa-regular fa-file-excel"></i> Excel</a></li>
               <li><a class="dropdown-item" href="#">CSV <small><span class="badge text-bg-primary">Coming soon</span></a></li>
             </ul>
           </div>
@@ -81,5 +81,6 @@
 </div>
 
 <% if (isMember) { %> 
+<%- include ("components/importExcelModal") %>
 <%- include("../../global/footer") %>
 <% } %>
