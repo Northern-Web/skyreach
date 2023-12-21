@@ -11,7 +11,7 @@
 </div>
 <% if (isMember) { %>
 <div class="row">
-    <div class="col-xs-6 offset-xs-1 col-sm-6 offset-sm-1 offset-sm-1 col-md-8 offset-md-1 col-lg-9 offset-lg-1 col-xl-9 offset-xl-1">
+    <div class="col-6 offset-1">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
               <li class="breadcrumb-item"><a href="/members/dashboard">Dashboard</a></li>
@@ -19,8 +19,21 @@
             </ol>
           </nav>
     </div>
-    <div class="col-xs-4 col-sm-4 col-md-2 col-lg-1 col-xl-1 text-end">
+
+    <div class="col-3 text-end">
         <a href="/members/skydives/add" type="button" class="btn btn-sm btn-success">Add &plus;</a>
+    </div>
+
+    <div class="col-1 text-end">
+        <div class="dropdown">
+            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Import
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Excel <small><span class="badge text-bg-primary">Coming soon</span></small></a></li>
+              <li><a class="dropdown-item" href="#">CSV <small><span class="badge text-bg-primary">Coming soon</span></a></li>
+            </ul>
+          </div>
     </div>
 </div>
 <% } else { %>
