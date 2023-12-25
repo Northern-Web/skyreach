@@ -1,6 +1,9 @@
-const { User } = require('../models/user.model');
-const bcrypt   = require("bcryptjs");
-const jwt      = require("jsonwebtoken");
+const { User }       = require('../models/user.model');
+const CountryService = require('./country.service');
+const bcrypt         = require("bcryptjs");
+const jwt            = require("jsonwebtoken");
+
+const countryService = new CountryService();
 
 class UserService {
 
@@ -12,16 +15,15 @@ class UserService {
         return await User.findOne({ 'email': email });
     }
 
-    static async GetUserFromToken (cookies) {
-    let token = cookies["x-access-token"];
+    async GetUserFromToken (token) {
+        if (!token) {
+            throw new Error('User not found');
+            return;
+        }
 
-    if (!token) {
-        throw new Error('User not found');
-    }
-
-    const decoded  = await jwt.verify(token, process.env.JWT_SECRET);
-    var user       = await User.findById(decoded.id);
-    return user;
+        const decoded  = jwt.verify(token, process.env.JWT_SECRET);
+        var user       = await User.findById(decoded.id);
+        return user;
     }
 
     async CreateUser (body) {
@@ -31,12 +33,14 @@ class UserService {
         // Check that required fields are present
     if (!name || !email || !password || !streetname1 || !region || !zipCode || !city || !country) {
         throw new Error('Please add all required fields.');
+        return;
     }
 
     // Check if user exists
     const userExists = await User.findOne({ email });
     if (userExists) {
         throw new Error('User already exists');
+        return;
     }
 
     // Hash password
@@ -73,6 +77,42 @@ class UserService {
 
     }
 
-}
+    async UpdateUserLogbook (id, body) {
+        if (!id || !body) {
+            throw new Error('Invalid update request');
+        }
 
+        var newLogbook = {
+            isShared: (body.isShared) ? true : false
+        }
+
+        body.logbook = newLogbook;
+
+        return await User.findByIdAndUpdate(id, body);
+    }
+
+    async UpdateUserAddress (id, body) {
+        if (!id || !body) {
+            throw new Error('Invalid update request');
+        }
+
+        const { streetname1, streetname2, region, zipcode, city, country } = body;
+
+        const selectedCountry = await countryService.GetCountryByCode(country);
+
+        var address = {
+            "streetName1": streetname1,
+            "streetName2": streetname2,
+            "region":      region,
+            "zipCode":     zipcode,
+            "city":        city,
+            "country":     selectedCountry.name,
+            "countryCode": selectedCountry.isoCode
+        }
+
+        return await User.findByIdAndUpdate(id, address);
+
+    }
+
+}
 module.exports = UserService;

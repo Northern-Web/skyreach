@@ -1,9 +1,6 @@
-const { User }    = require('./../models/user.model');
-const { Country } = require('./../models/country.model');
 const { format } = require("util");
 const { Storage } = require("@google-cloud/storage");
 const UserService = require('../services/user.service');
-const jwt         = require("jsonwebtoken");
 const processFile = require("../middleware/upload");
 const storage = new Storage({ keyFilename: "./gcs_service_account.json" });
 const bucket = storage.bucket("skyreach-user-files");
@@ -20,54 +17,36 @@ exports.createUser = async (req, res) => {
   }
 }
 
-exports.updateUserAddress = async (req, res, next) => {
-    const { streetname1, streetname2, region, zipcode, city, country } = req.body;
+exports.updateUserLogbook = async (req, res) => {
+  try {
+    let token    = req.cookies["x-access-token"];
+    const member = await userService.GetUserFromToken(token);
+    const user   = await userService.UpdateUserLogbook(member.id, req.body);
 
-    let token = req.cookies["x-access-token"];
-    if (!token) {
-        return res.status(404).redirect('/page-not-found');
-    }
-    var decoded    = await jwt.verify(token, process.env.JWT_SECRET);
-    var user       = await User.findById(decoded.id);
-    const selectedCountry = await Country.findOne({"isoCode": country});
-
-    var newAddress = {
-        "streetName1": streetname1,
-        "streetName2": streetname2,
-        "region":      region,
-        "zipCode":     zipcode,
-        "city":        city,
-        "country":     selectedCountry.name,
-        "countryCode": selectedCountry.isoCode
-    }
-
-    user.address = newAddress;
-    user.save();
-    res.status(200).redirect('/members/profile');
-
-}
-
-exports.toggleLogbookSharing = async (req, res, next) => {
-    const { isLogbookShared } = req.body;
-
-    let token = req.cookies["x-access-token"];
-    if (!token) {
-        return res.status(404).redirect('/page-not-found');
-    }
-    const decoded    = await jwt.verify(token, process.env.JWT_SECRET);
-    var user       = await User.findById(decoded.id);
-
-    var newLogbook = {
-        "isShared": (isLogbookShared) ? true : false
-    }
-
-    user.logbook = newLogbook;
-    user.save();
     // Timeout to increase probability of rendering to catch the applied changes
     setTimeout(() => {
-        console.log("Delay of 0,4 sec applied when toggle of logbook sharing");
+      console.log("Delay of 0,4 sec applied when toggle of logbook sharing");
     }, 400);
-    res.status(200).redirect('/members/profile');
+
+    res.status(200).redirect('back');
+  } catch (err) {
+    console.log(err);
+    return res.status(500);
+  }
+}
+
+exports.updateUserAddress = async (req, res, next) => {
+  try {
+    let token    = req.cookies["x-access-token"];
+    const member = await userService.GetUserFromToken(token);
+    const user   = await userService.UpdateUserAddress(member.id, req.body);
+
+    res.status(200).redirect('back');
+
+  } catch (err) {
+    console.log(err);
+    return res.status(500);
+  }
 }
 
 exports.uploadUserDocument = async (req, res, next) => {

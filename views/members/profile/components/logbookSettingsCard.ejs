@@ -1,16 +1,17 @@
 <div class="card text-bg-light mb-3" style="max-width: 18rem;">
     <div class="card-header">Logbook</div>
     <div class="card-body">
-        <form action="/users/logbookSharing" method="post">
+        <form action="/users/logbook" method="POST">
             <div class="row">
                 <div class="col-12">
                     <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" id="sharedLogbookSwtich" name="isLogbookShared" <%= (user.logbook.isShared ? "checked" : "") %>>
+                        <input class="form-check-input" type="checkbox" role="switch" id="sharedLogbookSwitch" name="isShared" <%= (user.logbook.isShared ? "checked" : "") %>>
                         <label class="form-check-label" for="sharedLogbookSwtich">Share logbook</label>
                       </div>
                 </div>
             </div>
 
+            <input type="hidden" id="member" value="<%= user.id %>">
               <div class="row mb-3">
                 <div class="col-12">
                     <button type="submit" class="btn btn-sm btn-primary">Update</button>
