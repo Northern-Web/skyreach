@@ -103,21 +103,5 @@ var UserSchema = new mongoose.Schema({
 
 UserSchema.plugin(timestamp);
 
-UserSchema.methods.tokenGenerator = async function () {
-  return jwt.sign({ id: this.id }, process.env.JWT_SECRET, {
-    expiresIn: process.env.TOKEN_EXPIRY_TIME,
-  });
-};
-
-UserSchema.methods.getCookieOptions = async function () {
-  let options = {
-    path:"/",
-    sameSite:true,
-    maxAge: 1000 * 60 * 60 * 24, // would expire after 24 hours
-    httpOnly: true, // The cookie only accessible by the web server
-  }
-  return options;
-}
-
 var User = mongoose.model('User', UserSchema);
 module.exports = { User };
