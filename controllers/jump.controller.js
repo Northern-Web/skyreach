@@ -5,7 +5,7 @@ const { Import }     = require('./../models/import.model');
 const { User }       = require("./../models/user.model");
 const { Jump }       = require('./../models/jump.model');
 const { SkydiveService } = require('./../services/skydiveService');
-const { UserService }    = require('./../services/userService');
+const { UserService }    = require('../services/user.service');
 const jwt            = require("jsonwebtoken");
 const processFile = require("../middleware/upload");
 
