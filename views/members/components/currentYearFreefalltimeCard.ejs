@@ -6,7 +6,7 @@
       <div class="card-body">
         <div class="row">
           <div class="col-8">
-            <span class="stat-number"><strong><%= stats.currentYearFreefallTime.toLocaleString('nb-NO') %> sec.</strong></span>
+            <span class="stat-number"><strong><%= stats.currentYearFreefallTime.toLocaleString('nb-NO', { minimumFractionDigits: 2, maximumFractionDigits: 2,}) %> hrs.</strong></span>
           </div>
           <div class="col-4">
             <div class="icon icon-shape bg-danger rounded-circle">
