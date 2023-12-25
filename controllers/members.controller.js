@@ -1,16 +1,16 @@
 const UserService = require('./../services/user.service');
+const SkydiveService = require('./../services/skydive.service');
 const { Country } = require('./../models/country.model');
-const { SkydiveService } = require('./../services/skydiveService');
 require("dotenv").config();
 
 const userService = new UserService();
+const skydiveService = new SkydiveService();
 
 exports.getDashboardPage = async (req, res, next) => {
   let token = req.cookies["x-access-token"];
   var user      = await userService.GetUserFromToken(token);
 
-    const stats = await SkydiveService.GetDashboardStats(user);
-    console.log(stats);
+    const stats = await skydiveService.GetDashboardStats(user);
 
     res.status(200).render('members/dashboard', {
       pageTitle: 'Skyreach - Dashboard',

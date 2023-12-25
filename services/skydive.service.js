@@ -1,8 +1,8 @@
-const { Jump }    = require('./../models/jump.model');
-const { User }    = require("./../models/user.model");
+const { Jump }    = require('../models/jump.model');
 const { format }  = require("util");
 const { Storage } = require("@google-cloud/storage");
-const { Import }  = require('./../models/import.model');
+const { Import }  = require('../models/import.model');
+const CountryService = require('./../services/country.service');
 const storage     = new Storage({ keyFilename: "./gcs_service_account.json" });
 const bucket      = storage.bucket("skyreach-user-files");
 const processFile = require("../middleware/upload");
@@ -10,10 +10,11 @@ const xlsx        = require('xlsx');
 const uuid        = require('uuid');
 var moment        = require('moment');
 
+const countryService = new CountryService();
 
 class SkydiveService {
 
-    static async GetDashboardStats (user) {
+    async GetDashboardStats (user) {
         const currentDate = new Date();
         const lastYear = currentDate.getFullYear() - 1;
         const skydives = await Jump.find({"owner": user.id});
@@ -68,13 +69,13 @@ class SkydiveService {
             "relativeSkydiveChange": await this.CompareRelativeDifference(currentYearSkydivesCount, lastYearSkydivesCount),
             "isMoreSkydives": await this.CompareSums(currentYearSkydivesCount, lastYearSkydivesCount),
             "currentYearDrop": currentYearDrop,
-            "totalFreefallTime": totalFreefallTime,
-            "currentYearFreefallTime": currentYearFreefallTime
+            "totalFreefallTime": await this.ConvertSecondsToHours(totalFreefallTime),
+            "currentYearFreefallTime": await this.ConvertSecondsToHours(currentYearFreefallTime)
         }
         return stats;
     }
 
-    static async CompareRelativeDifference (currentYear, lastYear) {
+    async CompareRelativeDifference (currentYear, lastYear) {
         var value = (currentYear / lastYear - 1) * 100;
         var percentage = 0;
         if (Number.isNaN(value)) {
@@ -85,7 +86,7 @@ class SkydiveService {
         return percentage;
       }
 
-    static async CompareSums(currentYear, lastYear) {
+    async CompareSums(currentYear, lastYear) {
         if (currentYear > lastYear) {
           this.isBetter = true;
         } else {
@@ -93,7 +94,11 @@ class SkydiveService {
         }
     }
 
-    static async UploadExcel (file, user, res) {
+    async ConvertSecondsToHours (seconds) {
+        return seconds / 60 / 60;
+    }
+
+    async UploadExcel (file, user, res) {
         try {
 
             const newFileName = uuid.v4();
@@ -142,5 +147,56 @@ class SkydiveService {
         }
 
     }
+
+    async GetUserSkydives (memberId) {
+        if (!memberId) {
+            throw new Error('Invalid skydive request.');
+        }
+
+        return await Jump.find({"owner": memberId}).sort("-number");
+    }
+
+    async GetSkydiveById (id) {
+        if (!id) {
+            throw new Error('Id was not provided when fetching skydive.');
+        }
+
+        return await Jump.findById(id);
+    }
+
+    async RegisterSkydive (id, body) {
+        if (!id || !body) {
+            throw new Error('Unable to save skydive');
+        }
+
+        const { jumpNum, date, aircraft, canopy, country, dz,
+            altitude, freefalltime, discipline, cutaway,
+            linetwists, progressionJump, description
+        } = body;
+
+        var newCountry = await countryService.GetCountryByCode(country);
+
+        var jumpDate = moment(date).local(true);
+
+        var skydive = new Jump({
+            "number": jumpNum,
+            "date": jumpDate,
+            "aircraft": aircraft,
+            "canopy": canopy,
+            "location.country": newCountry.name,
+            "location.countryCode": newCountry.isoCode,
+            "location.dropzone": dz,
+            "stats.altitude": altitude,
+            "stats.freefalltime": freefalltime,
+            "stats.discipline": discipline,
+            "stats.isEmergencyProcedure": (cutaway) ? true : false,
+            "stats.isLineTwists": (linetwists) ? true : false,
+            "stats.isProgressionJump": (progressionJump) ? true : false,
+            "description": description,
+            "owner": id
+        });
+    
+        return skydive.save();
+    }
 }
-module.exports = { SkydiveService };
+module.exports = SkydiveService;

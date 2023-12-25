@@ -15,6 +15,13 @@ class UserService {
         return await User.findOne({ 'email': email });
     }
 
+    async GetUserById (id) {
+        if (!id) {
+            throw new Error('Id not provided. Fetching user failed.');
+        }
+        return User.findById(id);
+    }
+
     async GetUserFromToken (token) {
         if (!token) {
             throw new Error('User not found');

@@ -1,45 +1,59 @@
 const { Aircraft }   = require('./../models/aircraft.model');
 const { Discipline } = require('./../models/discipline.model');
-const { Country }    = require('./../models/country.model');
 const { Import }     = require('./../models/import.model');
-const { User }       = require("./../models/user.model");
 const { Jump }       = require('./../models/jump.model');
-const { SkydiveService } = require('./../services/skydiveService');
-const { UserService }    = require('../services/user.service');
+const SkydiveService = require('./../services/skydive.service');
+const CountryService = require('./../services/country.service');
+const UserService    = require('../services/user.service');
 const jwt            = require("jsonwebtoken");
 const processFile = require("../middleware/upload");
 
 var moment = require('moment');
 require("dotenv").config();
 
-exports.getRegistrationPage = async (req, res, next) => {
-    const aircrafts   = await Aircraft.find({"isActive": true}).sort('manufacturer');
-    const disciplines = await Discipline.find({"isActive": true}).sort('name');
-    const countries   = await Country.find({"isActive": true}).sort('name');
+const userService    = new UserService();
+const countryService = new CountryService();
+const skydiveService = new SkydiveService();
 
-    res.status(200).render('members/skydives/register', {
-        pageTitle: 'Skyreach - Add skydive',
-        path: '/members/skydives/add',
-        aircrafts: aircrafts,
-        disciplines: disciplines,
-        countries: countries
-    });
+exports.getRegistrationPage = async (req, res, next) => {
+    try {
+        const aircrafts   = await Aircraft.find({"isActive": true}).sort('manufacturer');
+        const disciplines = await Discipline.find({"isActive": true}).sort('name');
+        const countries   = await countryService.GetCountries({"isActive": true}, {"sort": "name"});
+
+        res.status(200).render('members/skydives/register', {
+            pageTitle: 'Skyreach - Add skydive',
+            path: '/members/skydives/add',
+            aircrafts: aircrafts,
+            disciplines: disciplines,
+            countries: countries
+        });
+    } catch (err) {
+        console.log(err);
+        return res.status(500);
+    }
 }
 
 exports.getLogbookPage = async (req, res, next) => {
-    var user = await UserService.GetUserFromToken(req.cookies);
-    var jumps   = await Jump.find({"owner": user.id}).sort('-number');
+    try {
+        const token = req.cookies['x-access-token'];
+        var member  = await userService.GetUserFromToken(token);
+        var jumps   = await skydiveService.GetUserSkydives(member.id)
 
-    res.status(200).render('members/skydives/browse', {
-        pageTitle: 'Skyreach - Logbook',
-        title: 'Logbook',
-        subTitle: '',
-        path: '/members/skydives/browse',
-        isMember: true,
-        skydives: jumps,
-        isShared: user.logbook.isShared,
-        userId: user.id
-    });
+        res.status(200).render('members/skydives/browse', {
+            pageTitle: 'Skyreach - Logbook',
+            title: 'Logbook',
+            subTitle: '',
+            path: '/members/skydives/browse',
+            isMember: true,
+            skydives: jumps,
+            isShared: member.logbook.isShared,
+            userId: member.id
+        });
+    } catch (err) {
+        console.log(err.message);
+        return res.status(500);
+    }
 }
 
 exports.getSharedLoogbookPage = async (req, res, next) => {
@@ -49,7 +63,7 @@ exports.getSharedLoogbookPage = async (req, res, next) => {
         res.status(404).redirect('/page-not-found');
     }
 
-    const user  = await User.findById(id);
+    const user  = await userService.GetUserById(id);
     const jumps = await Jump.find({"owner": id}).sort('-number');
 
     if (!user || !user.logbook.isShared) {
@@ -68,33 +82,39 @@ exports.getSharedLoogbookPage = async (req, res, next) => {
 }
 
 exports.getDetailsPage = async (req, res) => {
-    const skydiveId = req.params.id;
-    const user = await UserService.GetUserFromToken(req.cookies);
-    const skydive = await Jump.findById(skydiveId);
-    const discipline = await Discipline.findOne({"abbreviation": skydive.stats.discipline});
+    try {
+        const skydiveId  = req.params.id;
+        const token      = req.cookies['x-access-token'];
+        const user       = await userService.GetUserFromToken(token);
+        const skydive    = await skydiveService.GetSkydiveById(skydiveId);
+        const discipline = await Discipline.findOne({"abbreviation": skydive.stats.discipline});
+    
+        res.status(200).render('members/skydives/jumpItem', {
+            pageTitle: 'Skyreach - View Item',
+            subTitle: user.name,
+            path: '/members/skydives/view',
+            isMember: true,
+            skydive: skydive,
+            discipline: discipline
+        });
 
-    res.status(200).render('members/skydives/jumpItem', {
-        pageTitle: 'Skyreach - View Item',
-        subTitle: user.name,
-        path: '/members/skydives/view',
-        isMember: true,
-        skydive: skydive,
-        discipline: discipline
-    });
-
+    } catch (err) {
+        console.log(err);
+        return res.status(500);
+    }
 }
 
 exports.getSharedDetailsPage = async (req, res) => {
     const skydiveId = req.params.skydiveId;
-    const userId = req.params.userId;
+    const memberId  = req.params.userId;
 
     try {
-        if (!skydiveId || !userId) {
+        if (!skydiveId || !memberId) {
             return res.status(404).redirect('/page-not-found');
         }
     
-        const user       = await User.findById(userId);
-        const skydive    = await Jump.findById(skydiveId);
+        const user       = await userService.GetUserById(memberId);
+        const skydive    = await skydiveService.GetSkydiveById(skydiveId);
         const discipline = await Discipline.findOne({"abbreviation": skydive.stats.discipline});
     
         if (!user || !user.logbook.isShared) {
@@ -129,41 +149,21 @@ exports.getImportPage = async (req, res) => {
 }
 
 exports.registerJump = async (req, res, next) => {
-    const { jumpNum, date, aircraft, canopy, country, dz,
-            altitude, freefalltime, discipline, cutaway,
-            linetwists, progressionJump, description
-    } = req.body;
+    try {
+        let token = req.cookies["x-access-token"];
 
-    let token = req.cookies["x-access-token"];
-    if (!token) {
-        throw new Error("Error caused by access token");
-    }
+        if (!token) {
+            throw new Error("Error caused by access token");
+        }
+    
+        const member = await userService.GetUserFromToken(token);
+        const skydive = skydiveService.RegisterSkydive(member.id, req.body);
 
-    var decoded    = await jwt.verify(token, process.env.JWT_SECRET);
-    var user       = await User.findById(decoded.id);
-    var newCountry = await Country.findOne({"name": country});
-    var jumpDate = await moment(date).local(true);
-
-    var jump = new Jump({
-        "number": jumpNum,
-        "date": jumpDate,
-        "aircraft": aircraft,
-        "canopy": canopy,
-        "location.country": newCountry.name,
-        "location.countryCode": newCountry.isoCode,
-        "location.dropzone": dz,
-        "stats.altitude": altitude,
-        "stats.freefalltime": freefalltime,
-        "stats.discipline": discipline,
-        "stats.isEmergencyProcedure": (cutaway) ? true : false,
-        "stats.isLineTwists": (linetwists) ? true : false,
-        "stats.isProgressionJump": (progressionJump) ? true : false,
-        "description": description,
-        "owner": user.id
-    });
-
-    jump.save();
-    res.status(201).redirect('/members/skydives/browse');
+        res.status(201).redirect('/members/skydives/browse');
+    } catch (err) {
+        console.log(err);
+        return res.status(500);
+    }  
 }
 
 exports.uploadExcel = async (req, res) => {
