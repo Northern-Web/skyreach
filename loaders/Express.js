@@ -24,9 +24,9 @@ class ExpressLoader {
         const membersRoutes  = require('./../routes/members.routes');
 
         // Route Uses
+        app.use("/", homeRoutes);
         app.use("/auth", authRoutes);
         app.use("/aircrafts", aircraftRoutes);
-        app.use("/home", homeRoutes);
         app.use("/users", userRoutes);
         app.use("/skydives", skydiveRoutes);
         app.use("/members", membersRoutes);
