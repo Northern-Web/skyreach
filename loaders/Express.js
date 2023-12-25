@@ -1,7 +1,7 @@
-const express    = require('express');
-var bodyParser   = require('body-parser');
-var cookieParser = require('cookie-parser')
-const ejs        = require('ejs');
+const express       = require('express');
+var bodyParser      = require('body-parser');
+var cookieParser    = require('cookie-parser')
+const ejs           = require('ejs');
 
 class ExpressLoader {
     constructor () {
