@@ -2,11 +2,23 @@ const { User }    = require('./../models/user.model');
 const { Country } = require('./../models/country.model');
 const { format } = require("util");
 const { Storage } = require("@google-cloud/storage");
-const { UserService } = require('./../services/userService');
+const UserService = require('../services/user.service');
 const jwt         = require("jsonwebtoken");
 const processFile = require("../middleware/upload");
 const storage = new Storage({ keyFilename: "./gcs_service_account.json" });
 const bucket = storage.bucket("skyreach-user-files");
+
+const userService = new UserService();
+
+exports.createUser = async (req, res) => {
+  try {
+    const user = await userService.CreateUser(req.body);
+    res.status(201).redirect('/');
+  } catch (err) {
+    console.log(err);
+    res.status(400);
+  }
+}
 
 exports.updateUserAddress = async (req, res, next) => {
     const { streetname1, streetname2, region, zipcode, city, country } = req.body;
