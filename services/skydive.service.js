@@ -164,6 +164,10 @@ class SkydiveService {
         return await Jump.findById(id);
     }
 
+    async GetSkydives (query, options) {
+        return await Jump.find(query).setOptions(options);
+    }
+
     async RegisterSkydive (id, body) {
         if (!id || !body) {
             throw new Error('Unable to save skydive');

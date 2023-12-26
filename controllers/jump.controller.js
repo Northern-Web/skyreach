@@ -1,24 +1,24 @@
-const { Aircraft }   = require('./../models/aircraft.model');
-const { Discipline } = require('./../models/discipline.model');
-const { Import }     = require('./../models/import.model');
-const { Jump }       = require('./../models/jump.model');
-const SkydiveService = require('./../services/skydive.service');
-const CountryService = require('./../services/country.service');
-const UserService    = require('../services/user.service');
-const jwt            = require("jsonwebtoken");
-const processFile = require("../middleware/upload");
+const { Import }        = require('./../models/import.model');
+const SkydiveService    = require('./../services/skydive.service');
+const CountryService    = require('./../services/country.service');
+const UserService       = require('./../services/user.service');
+const DisciplineService = require('./../services/discipline.service');
+const AircraftService   = require('./../services/aircraft.service');
+const processFile       = require("../middleware/upload");
 
 var moment = require('moment');
 require("dotenv").config();
 
-const userService    = new UserService();
-const countryService = new CountryService();
-const skydiveService = new SkydiveService();
+const userService       = new UserService();
+const countryService    = new CountryService();
+const skydiveService    = new SkydiveService();
+const disciplineService = new DisciplineService();
+const aircraftService   = new AircraftService();
 
 exports.getRegistrationPage = async (req, res, next) => {
     try {
-        const aircrafts   = await Aircraft.find({"isActive": true}).sort('manufacturer');
-        const disciplines = await Discipline.find({"isActive": true}).sort('name');
+        const aircrafts   = await aircraftService.GetAircrafts({"isActive": true}, {"sort": "manufacturer"});
+        const disciplines = await disciplineService.GetDisciplines({"isActive": true}, {"sort": "name"});
         const countries   = await countryService.GetCountries({"isActive": true}, {"sort": "name"});
 
         res.status(200).render('members/skydives/register', {
@@ -64,11 +64,12 @@ exports.getSharedLoogbookPage = async (req, res, next) => {
     }
 
     const user  = await userService.GetUserById(id);
-    const jumps = await Jump.find({"owner": id}).sort('-number');
 
     if (!user || !user.logbook.isShared) {
         res.status(404).redirect('/page-not-found');
     }
+
+    const skydives = await skydiveService.GetSkydives({"owner": id}, {"sort": "-number"});
 
     res.status(200).render('members/skydives/browse', {
         pageTitle: 'Logbook',
@@ -76,7 +77,7 @@ exports.getSharedLoogbookPage = async (req, res, next) => {
         subTitle: user.name,
         path: '/members/skydives/browse',
         isMember: false,
-        skydives: jumps,
+        skydives: skydives,
         userId: user.id
     });
 }
@@ -87,7 +88,7 @@ exports.getDetailsPage = async (req, res) => {
         const token      = req.cookies['x-access-token'];
         const user       = await userService.GetUserFromToken(token);
         const skydive    = await skydiveService.GetSkydiveById(skydiveId);
-        const discipline = await Discipline.findOne({"abbreviation": skydive.stats.discipline});
+        const discipline = await disciplineService.GetDisciplineByAbbr(skydive.stats.discipline);
     
         res.status(200).render('members/skydives/jumpItem', {
             pageTitle: 'Skyreach - View Item',
@@ -115,7 +116,7 @@ exports.getSharedDetailsPage = async (req, res) => {
     
         const user       = await userService.GetUserById(memberId);
         const skydive    = await skydiveService.GetSkydiveById(skydiveId);
-        const discipline = await Discipline.findOne({"abbreviation": skydive.stats.discipline});
+        const discipline = await disciplineService.GetDisciplineByAbbr(skydive.stats.discipline);
     
         if (!user || !user.logbook.isShared) {
             return res.status(404).redirect('/page-not-found');
@@ -137,7 +138,7 @@ exports.getSharedDetailsPage = async (req, res) => {
 }
 
 exports.getImportPage = async (req, res) => {
-    const user = await UserService.GetUserFromToken(req.cookies);
+    const user = await userService.GetUserFromToken(req.cookies);
     const imports = await Import.find({"owner": user.id, "flags.isImported": false});
 
     res.status(200).render('members/skydives/import', {
