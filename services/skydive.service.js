@@ -171,11 +171,10 @@ class SkydiveService {
 
         const { jumpNum, date, aircraft, canopy, country, dz,
             altitude, freefalltime, discipline, cutaway,
-            linetwists, progressionJump, description
+            linetwists, progressionJump, description, instructorNotes
         } = body;
 
         var newCountry = await countryService.GetCountryByCode(country);
-
         var jumpDate = moment(date).local(true);
 
         var skydive = new Jump({
@@ -193,6 +192,7 @@ class SkydiveService {
             "stats.isLineTwists": (linetwists) ? true : false,
             "stats.isProgressionJump": (progressionJump) ? true : false,
             "description": description,
+            "instructorNotes": instructorNotes,
             "owner": id
         });
     

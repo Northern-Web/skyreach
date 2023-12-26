@@ -55,15 +55,7 @@
 
     <div class="row mb-3">
         <div class="col-sm-12 col-md-2">
-            <select 
-            name="country" 
-            id="input-country"
-            class="form-control"
-            >
-        <% for (let country of countries) { %> 
-            <option value="<%= country.name %>"><%= country.name %></option>
-        <% } %>
-        </select>
+            <%- include("../../global/components/CountrySelector") %>
         </div>
         <div class="col-sm-12 col-md-2">
             <input 
@@ -144,6 +136,13 @@
         <div class="col-sm-12 col-md-7">
             <label for="input-description" class="form-label">Description</label>
             <textarea class="form-control" id="input-description" name="description" rows="3" maxlength="500"></textarea>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-sm-12 col-md-7">
+            <label for="input-description" class="form-label">Instructor Notes</label>
+            <textarea class="form-control" id="input-description" name="instructorNotes" rows="3" maxlength="500"></textarea>
         </div>
     </div>
 

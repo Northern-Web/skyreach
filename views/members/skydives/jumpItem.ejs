@@ -83,18 +83,24 @@
 </div>
 
 <div class="row">
-    <div class="col-sm-11 col-md-10">
+    <div class="col-sm-11 col-md-5">
+        <p><strong>Skydiver Notes</strong></p>
         <div class="card text-bg-light mb-3">
             <div class="card-body">
-                <div class="row">
-                    <div class="col-12">
-                        <p><strong>Log Remarks</strong></p>
-                        <p><%= skydive.description %></p>
-                    </div>
-                </div>     
+                <p><%= skydive.description %></p>
             </div>
         </div>
     </div>
+    <% if (skydive.instructorNotes) { %>
+    <div class="col-sm-11 col-md-5">
+        <p><strong>Instructor Notes</strong></p>
+        <div class="card text-bg-light mb-3">
+            <div class="card-body">
+                <p><%= skydive.instructorNotes %></p>
+            </div>
+        </div>
+    </div>
+    <% } %>
 </div>
 
 <div class="row">
