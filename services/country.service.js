@@ -6,11 +6,11 @@ class CountryService {
     }
 
     async GetCountryByName (name) {
-        return await Country.find({"name": name});
+        return await Country.findOne({"name": name});
     }
 
     async GetCountryByCode (isoCode) {
-        return await Country.find({"isoCode": isoCode});
+        return await Country.findOne({"isoCode": isoCode});
     }
 
     async GetCountries (query, options) {
