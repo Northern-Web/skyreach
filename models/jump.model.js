@@ -25,7 +25,7 @@ var JumpSchema = new mongoose.Schema({
         type: String,
         trim: true
     },
-    country_code: {
+    countryCode: {
         type: String,
         trim: true
     },
@@ -69,10 +69,12 @@ var JumpSchema = new mongoose.Schema({
     },
     description: {
         type: String,
-        required: true,
         trim: true
     },
-
+    instructorNotes: {
+        type: String,
+        trim: true
+    },
     attestant: {
         name: {
             type: String,
