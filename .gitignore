@@ -31,4 +31,4 @@ coverage
 
 # Environment files
 .env
-gcs_service_account.json
+/gcs_service_account.json
