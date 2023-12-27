@@ -88,3 +88,16 @@ exports.uploadUserDocument = async (req, res, next) => {
         });
       }
 }
+
+exports.updateUserPassword = async (req, res) => {
+  try {
+    const token = req.cookies['x-access-token'];
+    const member = await userService.GetUserFromToken(token);
+    const updatedMember = await userService.UpdateUserPassword(member, req.body);
+    console.log('Password was successfully changed.');
+    res.redirect('/auth/signout');
+  } catch (err) {
+    console.log(err);
+    return res.status(500);
+  }
+}
