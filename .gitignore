@@ -13,6 +13,7 @@ dist-ssr
 coverage
 *.local
 
+
 /cypress/videos/
 /cypress/screenshots/
 /dist
@@ -30,3 +31,4 @@ coverage
 
 # Environment files
 .env
+gcs_service_account.json
