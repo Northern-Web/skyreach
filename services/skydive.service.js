@@ -202,5 +202,32 @@ class SkydiveService {
     
         return skydive.save();
     }
+
+    async GetSkydiveCount (member) {
+        if (!member) {
+            throw new Error('Unable to count documents');
+        }
+        return await Jump.countDocuments({"owner": member.id});
+    }
+
+    async GetSkydivePagination (documentCount, selectedPage) {
+        const pageSize = 30;
+        var paginationSettings = {
+            pageSize: pageSize,
+            totalPages: parseInt(documentCount / pageSize),
+            previousPage: parseInt(selectedPage--),
+            nextPage: parseInt(selectedPage ++),
+            links: [],
+            skip: (selectedPage - 1) * pageSize
+        };
+
+        paginationSettings.links.push(`<li class="page-item"><a class="page-link" href="/members/skydives/browse?page=1">First</a></li>`);
+        paginationSettings.links.push(`<li class="page-item"><a class="page-link" href="/members/skydives/browse?page=${paginationSettings.previousPage}">${paginationSettings.previousPage}</a></li>`);
+        paginationSettings.links.push(`<li class="page-item"><a class="page-link" href="#">${selectedPage}</a></li>`); 
+        paginationSettings.links.push(`<li class="page-item"><a class="page-link" href="/members/skydives/browse?page=${paginationSettings.nextPage}">${paginationSettings.nextPage}</a></li>`);
+        paginationSettings.links.push(`<li class="page-item"><a class="page-link" href="/members/skydives/browse?page=${paginationSettings.totalPages}">Last</a></li>`);
+
+        return paginationSettings;
+    }
 }
 module.exports = SkydiveService;
