@@ -16,7 +16,7 @@ const disciplineService = new DisciplineService();
 const aircraftService   = new AircraftService();
 
 exports.getRegistrationPage = async (req, res, next) => {
-    try {
+    try {   
         const aircrafts   = await aircraftService.GetAircrafts({"isActive": true}, {"sort": "manufacturer"});
         const disciplines = await disciplineService.GetDisciplines({"isActive": true}, {"sort": "name"});
         const countries   = await countryService.GetCountries({"isActive": true}, {"sort": "name"});
@@ -38,14 +38,14 @@ exports.getLogbookPage = async (req, res, next) => {
     try {
         const token = req.cookies['x-access-token'];
         var member  = await userService.GetUserFromToken(token);
-        var jumps   = await skydiveService.GetUserSkydives(member.id)
+        var jumps   = await skydiveService.GetSkydives({"owner": member.id}, {"sort": "-number"});
 
         res.status(200).render('members/skydives/browse', {
             pageTitle: 'Skyreach - Logbook',
             title: 'Logbook',
             subTitle: '',
             path: '/members/skydives/browse',
-            isMember: true,
+            isMember: true, 
             skydives: jumps,
             isShared: member.logbook.isShared,
             userId: member.id
