@@ -1,23 +1,44 @@
 <%- include("../../global/header") %>
 <%- include("../member-navbar") %>
 
+<div class="container-fluid">
 <div class="row">
-    <div class="col-10 offset-1">
+    <div class="col-10">
         <h1>Profile</h1>
     </div>
 </div>
 
-<div class="row">
-    <div class="col-sm-12 col-md-3 offset-md-1 col-3 offset-1">
-        <%- include("./components/userInfoCard") %>
+<ul class="nav nav-tabs mb-3" id="profileTab" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Profile</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="password-tab" data-bs-toggle="tab" data-bs-target="#password-tab-pane" type="button" role="tab" aria-controls="password-tab-pane" aria-selected="false">Change Password</button>
+    </li>
+  </ul>
+  <div class="tab-content" id="profileTabContent">
+    <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+        <div class="row">
+            <div class="col-sm-12 col-md-3">
+                <%- include("./components/userInfoCard") %>
+            </div>
+            <div class="col-sm-12 col-md-5 col-5">
+                <%- include("./components/userAddressCard") %>
+            </div>
+            <div class="col-sm-12 col-md-3 col-3">
+                <%- include("./components/logbookSettingsCard") %>
+            </div>
+        </div>
     </div>
-    <div class="col-sm-12 col-md-5 col-5">
-        <%- include("./components/userAddressCard") %>
+    <div class="tab-pane fade" id="password-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+        <div class="col-sm-12 col-md-3 col-3">
+            <%- include("./components/passwordChangeForm") %>
+        </div>
     </div>
-    <div class="col-sm-12 col-md-3 col-3">
-        <%- include("./components/logbookSettingsCard") %>
-    </div>
-</div>
+
+  </div>
+
+
 
 <div class="row">
     <div class="col-4">
@@ -25,6 +46,8 @@
     </div>
     <div class="col-4"></div>
     <div class="col-4"></div>
+</div>
+
 </div>
 
 <%- include("../../global/footer") %>

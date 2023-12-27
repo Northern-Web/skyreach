@@ -118,7 +118,26 @@ class UserService {
         }
 
         return await User.findByIdAndUpdate(id, address);
+    }
 
+    async UpdateUserPassword (member, body) {
+        if (!member || !body) {
+            throw new Error('Unable to update password.');
+        }
+
+        const { currentPassword, newPassword, confirmNewPassword } = body;
+
+        const isCurrentPasswordValid = bcrypt.compare(currentPassword, member.password);
+
+        if (!isCurrentPasswordValid) {
+            throw new Error('Current password did not match the recorded password.');
+        }
+
+        if (newPassword != confirmNewPassword) {
+            throw new Error('New password did not match confirmation.');
+        }
+
+        return await User.findByIdAndUpdate(member.id, {"password": newPassword});
     }
 
 }
