@@ -178,6 +178,11 @@ class SkydiveService {
             linetwists, progressionJump, description, instructorNotes
         } = body;
 
+        const existingSkydive = await this.GetSkydives({"number": jumpNum}, {});
+        if (existingSkydive) {
+            throw new Error(`A skydive of #${jumpNum} has already been registered.`);
+        }
+
         var newCountry = await countryService.GetCountryByCode(country);
         var jumpDate = moment(date).local(true);
 
