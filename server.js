@@ -1,13 +1,13 @@
 const mongoose   = require('mongoose');
-require('dotenv').config();
+const config     = require('./config/index')
 
 mongoose.Promise = global.Promise;
 
 
   // Connect to the DB an initialize the app if successful
-  mongoose.connect(process.env.DB_URI)
+  mongoose.connect((config.app.env == 'production' ? config.database.prodUrl : config.database.devUrl))
   .then( () => {
-      console.log(`Successful connection to database \"${process.env.DB_NAME}\".`);
+      console.log(`Successful connection to database \"${config.database.name}\".`);
   
     // Create express instance to setup API
     const ExpressLoader = require( "./loaders/Express" );

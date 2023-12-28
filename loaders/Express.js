@@ -2,6 +2,7 @@ const express       = require('express');
 var bodyParser      = require('body-parser');
 var cookieParser    = require('cookie-parser')
 const ejs           = require('ejs');
+const config        = require('./../config/index');
 
 class ExpressLoader {
     constructor () {
@@ -34,9 +35,9 @@ class ExpressLoader {
         app.use("/members/clubs", clubRoutes);
 
         // Start application
-        this.server = app.listen( process.env.PORT, () => {
-            console.log(`${process.env.APP_NAME} booting in \"${process.env.APP_ENV}\" mode...`);
-            console.log(`${process.env.APP_NAME} listening on port ${process.env.PORT}`);
+        this.server = app.listen( config.port, () => {
+            console.log(`${config.app.name} booting in \"${config.app.env}\" mode...`);
+            console.log(`${config.app.name} listening on port ${config.port}`);
         });
     }
 

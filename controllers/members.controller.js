@@ -1,7 +1,7 @@
-const UserService = require('./../services/user.service');
+const UserService    = require('./../services/user.service');
 const SkydiveService = require('./../services/skydive.service');
-const { Country } = require('./../models/country.model');
-require("dotenv").config();
+const { Country }    = require('./../models/country.model');
+const config         = require('./../config/index');
 
 const userService = new UserService();
 const skydiveService = new SkydiveService();
@@ -35,6 +35,6 @@ exports.getProfilePage = async (req, res, next) => {
       user: user,
       countries: countries,
       memberCountryCode: user.address.countryCode,
-      baseUrl: process.env.BASE_URL
+      baseUrl: config.app.baseUrl
   });
 }

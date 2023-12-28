@@ -2,6 +2,7 @@ const UserService = require("./user.service");
 const bcrypt      = require("bcryptjs");
 const moment      = require("moment");
 const jwt         = require("jsonwebtoken");
+const config      = require('./../config/index');
 
 const userService = new UserService();
 
@@ -45,8 +46,8 @@ class AuthService {
     }
 
     async GenerateToken (user) {
-        return jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-            expiresIn: process.env.TOKEN_EXPIRY_TIME,
+        return jwt.sign({ id: user.id }, config.authentication.jwtSecret, {
+            expiresIn: config.authentication.tokenExpiry,
         });
     }
 
