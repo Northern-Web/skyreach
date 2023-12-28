@@ -2,6 +2,7 @@ const { User }       = require('../models/user.model');
 const CountryService = require('./country.service');
 const bcrypt         = require("bcryptjs");
 const jwt            = require("jsonwebtoken");
+const config         = require('./../config/index');
 
 const countryService = new CountryService();
 
@@ -28,7 +29,7 @@ class UserService {
             return;
         }
 
-        const decoded  = jwt.verify(token, process.env.JWT_SECRET);
+        const decoded  = jwt.verify(token, config.authentication.jwtSecret);
         var user       = await User.findById(decoded.id);
         return user;
     }

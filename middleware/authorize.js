@@ -1,6 +1,6 @@
-const jwt = require("jsonwebtoken");
+const jwt      = require("jsonwebtoken");
 const { User } = require("./../models/user.model");
-require("dotenv").config();
+const config   = require('./../config/index');
 
 verifyToken = (req, res, next) => {
     let token = req.cookies["x-access-token"];
@@ -11,7 +11,7 @@ verifyToken = (req, res, next) => {
     }
 
     jwt.verify(token, 
-        process.env.JWT_SECRET,
+        config.authentication.jwtSecret,
         (err, decoded) => {
         if (err) {
             return res.status(401).redirect('/login');
