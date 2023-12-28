@@ -7,7 +7,7 @@ assignees: Northern-Web
 
 ---
 
-READ CAREFULLY IF YOUR ISSUE REPORT CONTAINS SENSIBLE OR PRIVATE DATA:
+<!-- READ CAREFULLY IF YOUR ISSUE REPORT CONTAINS SENSIBLE OR PRIVATE DATA:
 (data that might be leaked or subtracted from our servers due to this
 security issue).
 
@@ -29,13 +29,13 @@ The data that must NOT be posted here:
 * Names or usernames combined with other identifiers like phone numbers or email addresses
 * Health or financial information (including insurance information, social security numbers, etc.)
 * Information about political or religious affiliations
-* Information about race, ethnicity, sexual orientation, gender, or other identifying information that could be used for discriminatory purposes
+* Information about race, ethnicity, sexual orientation, gender, or other identifying information that could be used for discriminatory purposes -->
 
 
 # **⚠️ Security Report**
 
 ## **Describe the security issue**
-A clear and concise description of what the bug is.
+<!-- A clear and concise description of what the bug is. -->
 
 *
 
@@ -60,20 +60,20 @@ Write the steps here (add or remove as many steps as needed)
 ---
 
 ### **Expected behaviour**
-A clear and concise description of what you expected to happen.
+<!-- A clear and concise description of what you expected to happen. -->
 
 *
 
 ---
 
 ### **Media prove**
-If applicable, add screenshots or videos to help explain your problem.
+<!-- If applicable, add screenshots or videos to help explain your problem. -->
 
 ---
 
 ### **Your environment**
-Use all the applicable bulleted list elements for this specific issue,
-and remove all the bulleted list elements that are not relevant for this issue.
+<!-- Use all the applicable bulleted list elements for this specific issue,
+and remove all the bulleted list elements that are not relevant for this issue. -->
 
 * OS: <!--[e.g. Ubuntu 5.4.0-26-generic x86_64 / Windows 1904 ...]-->
 * Node version:
@@ -83,6 +83,6 @@ and remove all the bulleted list elements that are not relevant for this issue.
 ---
 
 ### **Additional context**
-Add any other context or additional information about the problem here.
+<!-- Add any other context or additional information about the problem here. -->
 
 *
