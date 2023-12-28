@@ -178,7 +178,7 @@ class SkydiveService {
             linetwists, progressionJump, description, instructorNotes
         } = body;
 
-        const existingSkydive = await this.GetSkydives({"number": jumpNum}, {});
+        const existingSkydive = await this.GetSkydives({"_id": id, "number": jumpNum}, {});
         if (existingSkydive) {
             throw new Error(`A skydive of #${jumpNum} has already been registered.`);
         }
