@@ -36,10 +36,3 @@ exports.getProfilePage = async (req, res, next) => {
       baseUrl: process.env.BASE_URL
   });
 }
-
-exports.getFeedbackPage = async (req, res) => {
-  res.status(200).render('members/feedback', {
-    pageTitle: 'Skyreach - Feedback',
-    path: '/members/feedback/'
-});
-}
