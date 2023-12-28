@@ -26,7 +26,7 @@ class ExpressLoader {
         // Route Uses
         app.use("/", homeRoutes);
         app.use("/auth", authRoutes);
-        app.use("/aircrafts", aircraftRoutes);
+        app.use("/members/aircrafts", aircraftRoutes);
         app.use("/users", userRoutes);
         app.use("/members/skydives", skydiveRoutes);
         app.use("/members", membersRoutes);
