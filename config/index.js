@@ -8,7 +8,7 @@ module.exports = {
         name:    process.env.DB_NAME
     },
     app: {
-        name:    process.env.NAME,
+        name:    process.env.APP_NAME,
         version: process.env.VERSION,
         env:     process.env.APP_ENV,
         baseUrl: process.env.BASE_URL
