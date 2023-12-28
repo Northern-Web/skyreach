@@ -16,7 +16,9 @@ const disciplineService = new DisciplineService();
 const aircraftService   = new AircraftService();
 
 exports.getRegistrationPage = async (req, res, next) => {
-    try {   
+    try {
+        const token       = req.cookies['x-access-token'];
+        const member      = await userService.GetUserFromToken(token);   
         const aircrafts   = await aircraftService.GetAircrafts({"isActive": true}, {"sort": "manufacturer"});
         const disciplines = await disciplineService.GetDisciplines({"isActive": true}, {"sort": "name"});
         const countries   = await countryService.GetCountries({"isActive": true}, {"sort": "name"});
@@ -26,7 +28,8 @@ exports.getRegistrationPage = async (req, res, next) => {
             path: '/members/skydives/add',
             aircrafts: aircrafts,
             disciplines: disciplines,
-            countries: countries
+            countries: countries,
+            memberCountryCode: member.address.countryCode
         });
     } catch (err) {
         console.log(err);
@@ -48,7 +51,8 @@ exports.getLogbookPage = async (req, res, next) => {
             isMember: true, 
             skydives: jumps,
             isShared: member.logbook.isShared,
-            userId: member.id
+            userId: member.id,
+            memberCountryCode: member.address.countryCode
         });
     } catch (err) {
         console.log(err.message);
@@ -96,7 +100,8 @@ exports.getDetailsPage = async (req, res) => {
             path: '/members/skydives/view',
             isMember: true,
             skydive: skydive,
-            discipline: discipline
+            discipline: discipline,
+            memberCountryCode: user.address.countryCode
         });
 
     } catch (err) {
@@ -160,10 +165,18 @@ exports.registerJump = async (req, res, next) => {
         const member = await userService.GetUserFromToken(token);
         const skydive = skydiveService.RegisterSkydive(member.id, req.body);
 
-        res.status(201).redirect('/members/skydives/browse');
+        res.status(500).render('members/skydives/register', {
+            pageTitle: 'Skyreach - Add skydive',
+            path: '/members/skydives/add',
+            aircrafts: aircrafts,
+            disciplines: disciplines,
+            countries: countries,
+            memberCountryCode: member.address.countryCode
+        });
     } catch (err) {
         console.log(err);
         return res.status(500);
+        
     }  
 }
 

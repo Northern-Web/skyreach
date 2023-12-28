@@ -15,7 +15,8 @@ exports.getDashboardPage = async (req, res, next) => {
     res.status(200).render('members/dashboard', {
       pageTitle: 'Skyreach - Dashboard',
       path: '/members/dashboard',
-      stats: stats
+      stats: stats,
+      memberCountryCode: user.address.countryCode
     });
 }
 
@@ -33,6 +34,7 @@ exports.getProfilePage = async (req, res, next) => {
       path: '/members/profile/',
       user: user,
       countries: countries,
+      memberCountryCode: user.address.countryCode,
       baseUrl: process.env.BASE_URL
   });
 }
