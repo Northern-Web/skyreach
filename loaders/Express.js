@@ -22,6 +22,7 @@ class ExpressLoader {
         const userRoutes     = require('./../routes/user.routes');
         const skydiveRoutes  = require('./../routes/jump.routes');
         const membersRoutes  = require('./../routes/members.routes');
+        const clubRoutes     = require('./../routes/club.routes');
 
         // Route Uses
         app.use("/", homeRoutes);
@@ -30,6 +31,7 @@ class ExpressLoader {
         app.use("/users", userRoutes);
         app.use("/members/skydives", skydiveRoutes);
         app.use("/members", membersRoutes);
+        app.use("/members/clubs", clubRoutes);
 
         // Start application
         this.server = app.listen( process.env.PORT, () => {

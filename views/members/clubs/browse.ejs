@@ -1,0 +1,36 @@
+<%- include("../../global/header") %>
+<%- include("../member-navbar") %>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h2>Skydiving Clubs and Dropzones</h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <%- include("../../global/components/CountrySelector") %>
+            <button class="btn btn-sm btn-secondary" onclick="SwitchCountry()">Select</button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <ul>
+                <% for (let club of clubs) { %> 
+                <li><a href="#"></a><%= club.name %></li>
+                <% } %>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script type="application/javascript">
+    function SwitchCountry () {
+        const countrySelector = document.getElementById("country");
+        const selectedCountryCode = countrySelector.value;
+        console.log(selectedCountryCode);
+    }
+</script>
+<%- include("../../global/footer") %>
