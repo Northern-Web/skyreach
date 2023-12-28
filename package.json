@@ -9,7 +9,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Michael Sagnes",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "dependencies": {
     "@google-cloud/storage": "^7.7.0",
     "@hokify/agenda": "^6.3.0",
