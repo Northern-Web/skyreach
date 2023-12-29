@@ -165,14 +165,7 @@ exports.registerJump = async (req, res, next) => {
         const member = await userService.GetUserFromToken(token);
         const skydive = skydiveService.RegisterSkydive(member.id, req.body);
 
-        res.status(500).render('members/skydives/register', {
-            pageTitle: 'Skyreach - Add skydive',
-            path: '/members/skydives/add',
-            aircrafts: aircrafts,
-            disciplines: disciplines,
-            countries: countries,
-            memberCountryCode: member.address.countryCode
-        });
+        res.status(201).redirect('/members/skydives/browse');
     } catch (err) {
         console.log(err);
         return res.status(500);
